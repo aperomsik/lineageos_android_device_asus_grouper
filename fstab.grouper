@@ -15,3 +15,5 @@
 /dev/block/platform/sdhci-tegra.3/by-name/USP           /staging            emmc      defaults                                                      defaults
 
 /devices/platform/tegra-ehci                                auto        vfat        defaults        voldmanaged=usbdisk:auto
+
+/dev/block/zram0					none                swap      defaults zramsize=209715200
