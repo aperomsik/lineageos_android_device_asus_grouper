@@ -421,6 +421,9 @@ service recoveryd /system/bin/recoveryd /dev/block/platform/sdhci-tegra.3/by-nam
 on property:sys.shutdown.requested=1recovery
     start recoveryd
 
+on property:ro.build.type=userdebug
+    start adbd
+
 # start tf_daemon service
 service tf_daemon /vendor/bin/tf_daemon -storageDir /data/tf -d
     class main
