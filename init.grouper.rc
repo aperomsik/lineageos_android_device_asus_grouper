@@ -413,7 +413,7 @@ on property:sys.shutdown.requested=1recovery
     start recoveryd
 
 # start tf_daemon service
-service tf_daemon /system/bin/tf_daemon -storageDir /data/tf -d
+service tf_daemon /vendor/bin/tf_daemon -storageDir /data/tf -d
     class main
     user root
     group shell

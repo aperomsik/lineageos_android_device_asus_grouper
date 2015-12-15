@@ -144,3 +144,11 @@ PRODUCT_COPY_FILES += \
 
 WIFI_BAND := 802_11_BG
  $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
+
+# inherit from the non-open-source side
+$(call inherit-product, vendor/broadcom/grouper/broadcom-vendor.mk)
+$(call inherit-product, vendor/elan/grouper/elan-vendor.mk)
+$(call inherit-product, vendor/invensense/grouper/invensense-vendor.mk)
+$(call inherit-product, vendor/nvidia/grouper/nvidia-vendor.mk)
+$(call inherit-product, vendor/nxp/grouper/nxp-vendor.mk)
+$(call inherit-product, vendor/widevine/grouper/widevine-vendor.mk)
