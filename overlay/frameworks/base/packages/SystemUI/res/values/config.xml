@@ -28,4 +28,29 @@
 
     <!-- Use hardware layers in recents -->
     <bool name="config_recents_use_hardware_layers">true</bool>
+
+    <!-- Doze: does this device support STATE_DOZE and STATE_DOZE_SUSPEND?  -->
+    <bool name="doze_display_state_supported">true</bool>
+
+    <!-- Doze: should the pickup sensor be used as a pulse signal? -->
+    <bool name="doze_pulse_on_pick_up">true</bool>
+
+    <!-- Doze: shake accelerometer threshold -->
+    <integer name="doze_shake_accelerometer_threshold">10</integer>
+
+     <!-- Doze: when to pulse after a buzzworthy notification arrives -->
+    <string name="doze_pulse_schedule" translatable="false">1s,5s,10s,30s,60s</string>
+
+    <!-- Doze: pulse parameter - how long does it take to fade in after an intent? -->
+    <integer name="doze_pulse_duration_in_intent">0</integer>
+
+    <!-- Doze: pulse parameter - delay to wait for the screen to wake up after an intent -->
+    <integer name="doze_pulse_delay_in_intent">0</integer>
+
+    <!-- Doze: pulse parameter - delay to wait for the screen to wake up -->
+    <integer name="doze_pulse_delay_in">100</integer>
+
+    <!-- Doze: pulse parameter - how long does it take to fade in? -->
+    <integer name="doze_pulse_duration_in">100</integer>
+
 </resources>
