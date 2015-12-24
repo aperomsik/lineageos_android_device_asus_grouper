@@ -17,6 +17,31 @@ ro.zygote.disable_gl_preload=true
 
 # configure PRISM
 persist.tegra.didim.video = 5
+# Dalvik and other tweaks
+dalvik.vm.verify-bytecode=false
+persist.adb.notify=0
+ro.kernel.android.checkjni=0
+ro.kernel.checkjni=0
+dalvik.vm.checkjni=false
+ro.ril.disable.power.collapse=0
+pm.sleep_mode=1
+ro.config.hw_power_saving=true
+ro.sys.fw.bg_apps_limit=6
+persist.debug.wfd.enable=1
+persist.sys.force_highendgfx=true
+config.disable_atlas=true
+ro.config.max_starting_bg=3
+
+# Disable strict mode checking
+persist.android.strictmode=0
+
+# 16bit Transparency
+persist.sys.use_16bpp_alpha=0
+
+#debug flags
+ro.adb.secure=0
+ro.debuggable=1
+persist.sys.usb.config=mtp,adb
 
 # disable PRISM by default
 persist.tegra.didim.enable=0
