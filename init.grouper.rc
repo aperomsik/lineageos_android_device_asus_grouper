@@ -23,7 +23,6 @@ on fs
     setprop ro.crypto.umount_sd false
     setprop ro.crypto.fuse_sdcard true
     mount_all /fstab.grouper
-    swapon_all /fstab.grouper
 
 on post-fs-data
     # change back to bluetooth from system
@@ -301,14 +300,6 @@ on boot
     chown system system /dev/elan-iap
     chown system system /proc/ektf_dbg  
     start touch_fw_update
-
-# initialize KSM
-    write /sys/kernel/mm/ksm/pages_to_scan 100
-    write /sys/kernel/mm/ksm/sleep_millisecs 500
-    write /sys/kernel/mm/ksm/run 1
-
-# config swap
-    write /proc/sys/vm/page-cluster 0
 
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
