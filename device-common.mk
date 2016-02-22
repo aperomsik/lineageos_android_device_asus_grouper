@@ -143,7 +143,6 @@ WIFI_BAND := 802_11_BG
 
 # inherit from the non-open-source side
 $(call inherit-product, vendor/broadcom/grouper/broadcom-vendor.mk)
-$(call inherit-product, vendor/elan/grouper/elan-vendor.mk)
 $(call inherit-product, vendor/invensense/grouper/invensense-vendor.mk)
 $(call inherit-product, vendor/nvidia/grouper/nvidia-vendor.mk)
 $(call inherit-product, vendor/nxp/grouper/nxp-vendor.mk)
