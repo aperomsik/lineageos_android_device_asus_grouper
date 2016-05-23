@@ -99,6 +99,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     keystore.grouper
 
+# Gello
+PRODUCT_PACKAGES += \
+	Gello
+
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
