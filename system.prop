@@ -5,10 +5,6 @@ rild.libargs=-e wwan0
 persist.tegra.nvmmlite = 1
 ro.audio.monitorOrientation=true
 
-#NFC
-debug.nfc.fw_download=false
-debug.nfc.se=false
-
 # set default lcd density to TVDPI
 ro.sf.lcd_density=213
 
@@ -44,4 +40,6 @@ ro.debuggable=1
 persist.sys.usb.config=mtp,adb
 
 # disable PRISM by default
+# Configure PRISM, but disable it by default
+persist.tegra.didim.video=5
 persist.tegra.didim.enable=0
