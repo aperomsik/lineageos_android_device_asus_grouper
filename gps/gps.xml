@@ -15,6 +15,10 @@
        ltoFileName="lto2.dat"
        acLtoDir="/data/gps/"
        LbsSyncLtoThresholdDays="1"
+
+       SensorsEnable="false"
+       SensorsPowerSave="false"
+       SensorsLog="false"
   />
 
   <gll
