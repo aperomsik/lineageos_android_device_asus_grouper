@@ -91,8 +91,9 @@ NEED_WORKAROUND_CORTEX_A9_745320 := true
 
 BOARD_USES_GROUPER_MODULES := true
 
-BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME)
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.8
+BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME) androidboot.selinux=permissive
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.9
+TARGET_GCC_VERSION_EXP := 4.9
 TARGET_KERNEL_SOURCE := kernel/asus/grouper
 TARGET_KERNEL_CONFIG := cyanogenmod_grouper_defconfig
 
