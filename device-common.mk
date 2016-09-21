@@ -47,8 +47,7 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/init.grouper.usb.rc:root/init.grouper.usb.rc \
     device/asus/grouper/gps.conf:system/etc/gps.conf \
     device/asus/grouper/gps/gps.xml:system/etc/gps.xml \
-    device/asus/grouper/touch_fw_update.sh:system/bin/touch_fw_update.sh \
-    device/asus/grouper/gps_daemon.sh:system/bin/gps_daemon.sh
+    device/asus/grouper/touch_fw_update.sh:system/bin/touch_fw_update.sh
 
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
 PRODUCT_COPY_FILES += \
@@ -76,7 +75,10 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/sensor00fn11.idc:system/usr/idc/sensor00fn11.idc \
     device/asus/grouper/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
 
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
+    libgpsd-compat \
+
+PRODUCT_PACKAGES += \
     libwpa_client \
     hostapd \
     dhcpcd.conf \
