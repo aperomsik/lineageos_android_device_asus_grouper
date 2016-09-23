@@ -91,6 +91,12 @@ NEED_WORKAROUND_CORTEX_A9_745320 := true
 
 BOARD_USES_GROUPER_MODULES := true
 
+# Configure jemalloc for low-memory
+MALLOC_SVELTE := true
+
+# Use clang platform builds
+USE_CLANG_PLATFORM_BUILD := true
+
 BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME) androidboot.selinux=permissive
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.9
 TARGET_GCC_VERSION_EXP := 4.9
