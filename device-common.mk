@@ -120,8 +120,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fsck.f2fs \
     mkfs.f2fs \
-    e2fsck \
-    setup_fs
+    e2fsck
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 

@@ -434,15 +434,6 @@ service tf_daemon /vendor/bin/tf_daemon -storageDir /data/tf -d
 on property:init.svc.tf_daemon=restarting
     mkdir /data/tf
 
-# create filesystems if necessary
-service setup_fs /system/bin/setup_fs \
-        /dev/block/platform/sdhci-tegra.3/by-name/UDA \
-        /dev/block/platform/sdhci-tegra.3/by-name/CAC
-    class core
-    user root
-    group root
-    oneshot
-
 service touch_fw_update /system/bin/touch_fw_update.sh
     class main
     disabled
