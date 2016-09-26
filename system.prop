@@ -22,17 +22,20 @@ dalvik.vm.checkjni=false
 ro.ril.disable.power.collapse=0
 pm.sleep_mode=1
 ro.config.hw_power_saving=true
-ro.sys.fw.bg_apps_limit=6
+ro.sys.fw.bg_apps_limit=4
 persist.debug.wfd.enable=1
 persist.sys.force_highendgfx=true
 config.disable_atlas=true
-ro.config.max_starting_bg=3
+ro.config.max_starting_bg=2
 
 # Disable strict mode checking
 persist.android.strictmode=0
 
 # 16bit Transparency
-persist.sys.use_16bpp_alpha=0
+persist.sys.use_16bpp_alpha=1
+
+#config low ram device
+#ro.config.low_ram=true
 
 #debug flags
 ro.adb.secure=0
