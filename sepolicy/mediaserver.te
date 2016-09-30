@@ -1,4 +1,9 @@
+
 allow mediaserver { gpu_device nvhost_device }:chr_file rw_file_perms;
+allow mediaserver sysfs_module_fuse:file r_file_perms;
+allow mediaserver sysfs_module_nvhost:file r_file_perms;
+
+allow mediaserver debugfs:file w_file_perms;
 
 #text relocs in nvidia things
 allow mediaserver system_file:file execmod;

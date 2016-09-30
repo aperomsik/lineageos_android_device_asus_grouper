@@ -31,3 +31,7 @@ allow sensors_config self:capability sys_admin;
 # Tries to delete /data/calibration (don't allow)
 dontaudit sensors_config system_data_file:dir remove_name;
 dontaudit sensors_config self:capability dac_override;
+
+#
+allow sensors_config sensors_data_file:file rw_file_perms;
+allow sensors_config sysfs:file { getattr setattr w_file_perms };

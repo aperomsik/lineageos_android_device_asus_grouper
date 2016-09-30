@@ -1,0 +1,2 @@
+allow debuggerd app_data_file:file { read };
+allow debuggerd app_data_file:dir { search };

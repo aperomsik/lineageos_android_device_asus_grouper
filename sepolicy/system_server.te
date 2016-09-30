@@ -20,3 +20,16 @@ allow system_server system_file:file execmod;
 allow system_server sysfs_devices_tegradc:dir search;
 allow system_server sysfs_devices_tegradc:file { read write getattr open };
 
+# text relocs
+allow system_server system_file:file execmod;
+
+# allow sysfs
+allow system_server sysfs_devices_tegradc:dir search;
+allow system_server sysfs_devices_tegradc:file rw_file_perms;
+allow system_server sysfs_module_nvhost:file r_file_perms;
+allow system_server sysfs_module_fuse:file r_file_perms;
+allow system_server unlabeled:dir_file_class_set { unlink };
+
+# allow ptrace
+allow system_server servicemanager:process ptrace;
+allow system_server system_app:process ptrace;

@@ -1,0 +1,2 @@
+# org.chromium.chrome:sandboxed_process required
+allow isolated_app app_data_file:dir { getattr search };

@@ -1,0 +1,1 @@
+allow dex2oat debugfs:file w_file_perms;

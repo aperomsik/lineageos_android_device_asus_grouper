@@ -1,0 +1,12 @@
+# PerformanceControl, TricksterMod and other performance apps required
+allow untrusted_app sysfs_lowmemorykiller:dir { search };
+allow untrusted_app sysfs_lowmemorykiller:file rw_file_perms;
+allow untrusted_app sysfs:file r_file_perms;
+
+# Media search for players, seems MediaDirService would take care it later
+allow untrusted_app asec_apk_file:file rw_file_perms;
+allow untrusted_app asec_apk_file:dir { getattr search };
+allow untrusted_app mnt_media_rw_file:dir { getattr };
+allow untrusted_app rootfs:dir r_file_perms;
+
+allow untrusted_app debugfs:file rw_file_perms;

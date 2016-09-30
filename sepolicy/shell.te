@@ -1,0 +1,6 @@
+allow shell self:capability sys_nice;
+allow shell dalvikcache_data_file:dir { write add_name remove_name};
+allow shell dalvikcache_data_file:file { rw_file_perms create setattr unlink };
+allow shell device:dir read;
+
+allow shell debugfs:file w_file_perms;

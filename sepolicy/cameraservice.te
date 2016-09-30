@@ -1,0 +1,8 @@
+
+allow cameraserver gpu_device:chr_file rw_file_perms;
+allow cameraserver nvhost_device:chr_file rw_file_perms;
+allow cameraserver sysfs_module_nvhost:file rw_file_perms;
+allow cameraserver sysfs_module_fuse:file r_file_perms;
+
+allow cameraserver debugfs:file w_file_perms;
+allow audioserver debugfs:file w_file_perms;
