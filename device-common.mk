@@ -28,11 +28,12 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
 PRODUCT_AAPT_PREBUILT_DPI := hdpi
 
 PRODUCT_PROPERTY_OVERRIDES := \
-    wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=15 \
-    tf.enable=y \
+    drm.service.enabled=true \
     persist.sys.media.legacy-drm=true \
-    drm.service.enabled=true
+    media.stagefright.less-secure=true \ 
+    tf.enable=y \
+    wifi.interface=wlan0 \
+    wifi.supplicant_scan_interval=15
 
 # libhwui flags
 PRODUCT_PROPERTY_OVERRIDES += \
