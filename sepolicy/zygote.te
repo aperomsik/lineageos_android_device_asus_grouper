@@ -1,1 +1,9 @@
 allow zygote debugfs:file w_file_perms;
+allow zygote activity_service:service_manager find;
+allow zygote ashmem_device:chr_file execute;
+allow zygote package_service:service_manager find;
+allow zygote self:capability sys_nice;
+allow zygote self:process execmem;
+allow zygote system_server:binder { call transfer };
+allow zygote zygote_tmpfs:file execute;
+

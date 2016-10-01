@@ -33,3 +33,6 @@ allow system_server unlabeled:dir_file_class_set { unlink };
 # allow ptrace
 allow system_server servicemanager:process ptrace;
 allow system_server system_app:process ptrace;
+
+allow system_server zygote:binder call;
+

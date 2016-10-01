@@ -2,3 +2,6 @@ allow priv_app device:dir r_file_perms;
 
 allow priv_app debugfs:file rw_file_perms;
 
+allow priv_app debugfs:file write;
+allow priv_app sysfs_module_fuse:file { open read };
+
