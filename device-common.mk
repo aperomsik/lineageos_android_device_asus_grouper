@@ -104,13 +104,13 @@ PRODUCT_PACKAGES += \
 	Gello
 
 # NFC packages
-PRODUCT_PACKAGES += \
-    nfc.grouper \
-    libnfc\
-    Nfc \
-    libpn544_fw \
-    NfcNxp \
-    Tag
+# PRODUCT_PACKAGES += \
+#     nfc.grouper \
+#     libnfc\
+#     Nfc \
+#     libpn544_fw \
+#     NfcNxp \
+#     Tag
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
