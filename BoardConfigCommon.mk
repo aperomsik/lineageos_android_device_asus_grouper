@@ -91,6 +91,8 @@ NEED_WORKAROUND_CORTEX_A9_745320 := true
 
 BOARD_USES_GROUPER_MODULES := true
 
+BOARD_USES_FULL_RECOVERY_IMAGE := true
+
 # Configure jemalloc for low-memory
 MALLOC_SVELTE := true
 
