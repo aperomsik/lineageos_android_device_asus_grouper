@@ -279,8 +279,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
 
 # Default Read Ahead value for sdcards
-    write /sys/block/mmcblk0/queue/read_ahead_kb 2048
-    write /sys/block/mmcblk1/queue/read_ahead_kb 2048
+    write /sys/block/mmcblk0/queue/read_ahead_kb 128
+    write /sys/block/mmcblk1/queue/read_ahead_kb 128
 
 # GPS init
     write /sys/class/gpio/export 162
@@ -308,6 +308,25 @@ on boot
 
 # config swap
     write /proc/sys/vm/page-cluster 0
+
+# some additional performance tweaks (to be tested)
+	setprop dalvik.vm.heapgrowthlimit 128m
+	setprop dalvik.vm.heapsize 174m
+	write /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
+	write /sys/module/lowmemorykiller/parameters/minfree "8192,10240,12288,14336,16384,20480"
+	write /sys/module/lowmemorykiller/parameters/cost 48
+	write /proc/sys/vm/highmem_is_dirtyable 1
+	write /sys/block/mmcblk0/queue/nr_requests 512
+	write /sys/block/mmcblk0/queue/add_random 0
+	write /sys/block/mmcblk0/queue/rq_affinity 2
+	write /sys/block/mmcblk0/queue/iosched/slice_idle 0
+	write /sys/block/mmcblk0/queue/iosched/group_idle 10
+	write /sys/block/mmcblk0/queue/iosched/back_seek_penalty 1
+	write /sys/block/mmcblk0/queue/iosched/quantum 16
+	write /sys/block/mmcblk0/queue/iosched/slice_async_rq 4
+	write /sys/block/mmcblk0/queue/iosched/back_seek_max 2147483647
+	write /sys/devices/tegradc.0/smartdimmer/enable 0
+	write /sys/devices/host1x/gr3d/enable_3d_scaling 1
 
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
