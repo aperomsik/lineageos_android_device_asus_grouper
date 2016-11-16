@@ -40,7 +40,7 @@ persist.sys.use_16bpp_alpha=1
 #ro.config.low_ram=true
 
 #disable scrolling cache (1 = on, 2 = sometimes on, 3 = sometimes off, 4 = allways off)
-persist.sys.scrollingcache=4
+persist.sys.scrollingcache=1
 
 #debug flags
 ro.adb.secure=0
