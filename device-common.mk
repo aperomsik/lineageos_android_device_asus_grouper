@@ -27,6 +27,8 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
 # A list of dpis to select prebuilt apk, in precedence order.
 PRODUCT_AAPT_PREBUILT_DPI := hdpi
 
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+
 PRODUCT_PROPERTY_OVERRIDES := \
     drm.service.enabled=true \
     persist.sys.media.legacy-drm=true \
