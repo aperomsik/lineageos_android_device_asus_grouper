@@ -278,10 +278,4 @@
     <!-- Enable doze powersaving -->
     <bool name="config_enableAutoPowerModes">true</bool>
 
-    <string-array name="config_locationProviderPackageNames" translatable="false">
-        <!-- GMS location provider -->
-        <item>com.google.android.gms</item>
-        <!-- The standard AOSP fused location provider -->
-        <item>com.android.location.fused</item>
-    </string-array>
 </resources>
