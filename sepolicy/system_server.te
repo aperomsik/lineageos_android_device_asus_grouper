@@ -37,4 +37,4 @@ allow system_server system_app:process ptrace;
 allow system_server zygote:binder call;
 
 allow system_server user_profile_data_file:dir read;
-
+allow system_server user_profile_data_file:dir open;
