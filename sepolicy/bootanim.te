@@ -1,4 +1,4 @@
 allow bootanim sysfs_module_fuse:file r_file_perms;
 allow bootanim sysfs_module_nvhost:file r_file_perms;
 
-allow bootanim debugfs:file w_file_perms;
+# allow bootanim debugfs:file w_file_perms;

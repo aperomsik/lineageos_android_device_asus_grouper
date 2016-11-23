@@ -3,4 +3,4 @@ type sysfs_devices_tegradc, fs_type, sysfs_type;
 type sysfs_module_fuse, fs_type,sysfs_type;
 type sysfs_module_nvhost, fs_type,sysfs_type;
 
-#typealias vfat alias sdcard_external;
+typealias vfat alias sdcard_external;

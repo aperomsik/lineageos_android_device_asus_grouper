@@ -1,2 +1,2 @@
-allow profman debugfs:file write;
+# allow profman debugfs:file write;
 
