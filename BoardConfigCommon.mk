@@ -102,8 +102,8 @@ USE_CLANG_PLATFORM_BUILD := true
 BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME)
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-linux-androideabi-4.9
 TARGET_GCC_VERSION_EXP := 4.9
+TARGET_KERNEL_CONFIG := tegra3_android_defconfig
 TARGET_KERNEL_SOURCE := kernel/asus/grouper
-TARGET_KERNEL_CONFIG := cyanogenmod_grouper_defconfig
 
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
