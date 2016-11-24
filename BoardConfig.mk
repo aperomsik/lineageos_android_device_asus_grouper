@@ -50,7 +50,8 @@ DISABLE_DROIDDOC := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := false
 TARGET_ENABLE_NON_PIE_SUPPORT := true
 WITH_DEXPREOPT := true
-HWUI_COMPILE_FOR_PERF := true
+# commented due to clang unknown flag -mapcs
+# HWUI_COMPILE_FOR_PERF := true
 $(call add-product-dex-preopt-module-config,services,--compiler-filter=everything)
 PRODUCT_PROPERTY_OVERRIDES += \
 dalvik.vm.dex2oat-flags=--no-watch-dog \
