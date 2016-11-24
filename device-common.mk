@@ -87,7 +87,8 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/elan-touchscreen.idc:system/usr/idc/elan-touchscreen.idc \
     device/asus/grouper/raydium_ts.idc:system/usr/idc/raydium_ts.idc \
     device/asus/grouper/sensor00fn11.idc:system/usr/idc/sensor00fn11.idc \
-    device/asus/grouper/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+    device/asus/grouper/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    prebuilts/ndk/current/sources/cxx-stl/stlport/libs/armeabi/libstlport_shared.so:system/lib/libstlport.so
 
 PRODUCT_PACKAGES += \
     libgpsd-compat \
