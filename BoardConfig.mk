@@ -49,7 +49,7 @@ BOARD_SKIP_ANDROID_DOC_BUILD := true
 DISABLE_DROIDDOC := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := false
 TARGET_ENABLE_NON_PIE_SUPPORT := true
-WITH_DEXPREOPT := true
+# WITH_DEXPREOPT := true
 # commented due to clang unknown flag -mapcs
 # HWUI_COMPILE_FOR_PERF := true
 $(call add-product-dex-preopt-module-config,services,--compiler-filter=everything)
