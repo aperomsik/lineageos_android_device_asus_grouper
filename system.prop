@@ -51,3 +51,7 @@ persist.sys.usb.config=mtp,adb
 # Configure PRISM, but disable it by default
 persist.tegra.didim.video=5
 persist.tegra.didim.enable=0
+
+# needed for legacy camera api
+media.stagefright.legacyencoder=true
+media.stagefright.less-secure=true

@@ -169,7 +169,7 @@
     <!-- Settings screen, camera selection dialog title. Users can select a camera from the phone (front-facing or back-facing). [CHAR LIMIT=20] -->
     <string name="pref_camera_id_title">Choose camera</string>
 
-    <string name="pref_camera_id_default" translatable="false">0</string>
+    <string name="pref_camera_id_default" translatable="false">1</string>
 
     <!-- Named indexes into the array of camera facing entries -->
     <string name="pref_camera_id_index_back" translatable="false">0</string>
