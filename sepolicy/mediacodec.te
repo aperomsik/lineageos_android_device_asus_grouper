@@ -3,3 +3,4 @@ allow mediacodec sysfs_module_nvhost:file r_file_perms;
 allow mediacodec system_file:file execmod;
 
 # allow mediacodec debugfs:file w_file_perms;
+allow mediacodec rootfs:lnk_file getattr;

@@ -10,3 +10,5 @@ allow mediaserver system_file:file execmod;
 
 allow mediaserver cameraserver_service:service_manager add;
 allow mediaserver cameraproxy_service:service_manager find;
+allow mediadrmserver rootfs:lnk_file getattr;
+

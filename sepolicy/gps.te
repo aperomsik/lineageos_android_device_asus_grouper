@@ -15,3 +15,4 @@ allow glgps gps_data_file:fifo_file { unlink create setattr getattr rw_file_perm
 allow glgps sysfs:file rw_file_perms;
 allow glgps gps_device:chr_file { ioctl open read write };
 allow glgps glgps:udp_socket { create };
+allow gpsd rootfs:lnk_file getattr;

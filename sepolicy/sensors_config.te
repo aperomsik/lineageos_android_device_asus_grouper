@@ -39,3 +39,6 @@ allow sensors_config sysfs:file { getattr setattr w_file_perms };
 allow sensors_config vfat:file { getattr open read };
 allow sensors_config vfat:filesystem unmount;
 
+allow sensors_config rootfs:lnk_file getattr;
+allow sensors_config vfat:filesystem mount;
+
