@@ -13,6 +13,8 @@ ro.zygote.disable_gl_preload=true
 
 # configure PRISM
 persist.tegra.didim.video = 5
+persist.tegra.didim.enable = 1
+persist.tegra.didim.normal = 3
 # Dalvik and other tweaks
 dalvik.vm.heapgrowthlimit=128m
 dalvik.vm.heapsize=174m
@@ -28,7 +30,7 @@ ro.sys.fw.bg_apps_limit=10
 persist.debug.wfd.enable=1
 persist.sys.force_highendgfx=true
 config.disable_atlas=true
-ro.config.max_starting_bg=2
+ro.config.max_starting_bg=8
 
 # Disable strict mode checking
 persist.android.strictmode=0
@@ -45,12 +47,9 @@ persist.sys.scrollingcache=1
 #debug flags
 ro.adb.secure=0
 ro.debuggable=1
+persist.service.adb.enable=1
 persist.sys.usb.config=mtp,adb
 
-# disable PRISM by default
-# Configure PRISM, but disable it by default
-persist.tegra.didim.video=5
-persist.tegra.didim.enable=0
 
 # needed for legacy camera api
 media.stagefright.legacyencoder=true
