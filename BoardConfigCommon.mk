@@ -88,6 +88,9 @@ ifneq ($(HAVE_NVIDIA_PROP_SRC),false)
 -include vendor/nvidia/build/definitions.mk
 endif
 
+# Override healthd HAL
+BOARD_HAL_STATIC_LIBRARIES := libdumpstate.grouper libhealthd.tegra3
+
 # Avoid the generation of ldrcc instructions
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 
