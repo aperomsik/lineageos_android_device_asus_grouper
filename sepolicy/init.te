@@ -4,6 +4,7 @@ allow init sysfs:file write;
 
 allow init debugfs:dir mounton;
 allow init logd:dir { getattr };
+allow init logd:dir { read open };
 
 allow init sysfs_firmware_writable:file w_file_perms;
 

@@ -4,3 +4,4 @@ allow system_app sysfs_lowmemorykiller:dir { search };
 
 allow system_app radio_data_file:dir { getattr };
 allow system_app sysfs_module_fuse:file { open read };
+allow system_app self:process ptrace;
