@@ -54,7 +54,3 @@ ro.debuggable=1
 persist.service.adb.enable=1
 persist.sys.usb.config=mtp,adb
 
-
-# needed for legacy camera api
-media.stagefright.legacyencoder=true
-media.stagefright.less-secure=true
