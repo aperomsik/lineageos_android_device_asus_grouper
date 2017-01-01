@@ -13,7 +13,7 @@ $(call inherit-product, device/asus/grouper/full_grouper.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := grouper
-PRODUCT_NAME := cm_grouper
+PRODUCT_NAME := lineage_grouper
 PRODUCT_BRAND := google
 PRODUCT_MODEL := Nexus 7
 PRODUCT_MANUFACTURER := asus
