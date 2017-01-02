@@ -8,3 +8,4 @@ init_daemon_domain(touchfw)
 allow touchfw sysfs_firmware_writable:file w_file_perms;
 
 allow touchfw shell_exec:file r_file_perms;
+allow touchfw rootfs:lnk_file getattr;
