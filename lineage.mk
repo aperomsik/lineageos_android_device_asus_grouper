@@ -5,6 +5,8 @@ PRODUCT_RELEASE_NAME := Nexus7
 TARGET_SCREEN_HEIGHT := 1280
 TARGET_SCREEN_WIDTH := 800
 
+TARGET_UNOFFICIAL_BUILD_ID := aaopt
+
 # Inherit some common Lineage stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 
