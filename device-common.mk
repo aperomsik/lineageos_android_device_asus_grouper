@@ -122,6 +122,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     keystore.grouper
 
+PRODUCT_PACKAGES += \
+    Snap
+
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
