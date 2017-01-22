@@ -171,6 +171,11 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
 
+# put SU back for now
+ifneq ($(TARGET_BUILD_VARIANT),user)
+    WUTH_SU := true
+endif
+
 # NFCEE access control
 ifeq ($(TARGET_BUILD_VARIANT),user)
     NFCEE_ACCESS_PATH := device/asus/grouper/nfcee_access.xml
