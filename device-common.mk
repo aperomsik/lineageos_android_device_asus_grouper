@@ -173,7 +173,7 @@ PRODUCT_COPY_FILES += \
 
 # put SU back for now
 ifneq ($(TARGET_BUILD_VARIANT),user)
-    WUTH_SU := true
+    WITH_SU := true
 endif
 
 # NFCEE access control
