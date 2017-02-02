@@ -1,2 +1,4 @@
 allow drmserver knv_device:chr_file rw_file_perms;
 allow drmserver ringtone_file:file read;
+allow drmserver system_file:file execmod;
+
