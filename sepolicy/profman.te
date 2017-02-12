@@ -1,3 +1,4 @@
 # allow profman debugfs:file write;
 # allow profman debugfs:file open;
+# allow profman rootfs:lnk_file getattr;
 

@@ -161,12 +161,12 @@ int main(int argc, char** argv)
 		update_generic_file("Accel_Config.ini");
 		update_generic_file("MPU6050_Config.ini");
 		
-		copy_file_from_per("/sensors/KXTF9_Calibration.ini");
-		copy_file_from_per("/sensors/MPU6050_Config.ini");
-		copy_file_from_per("/sensors/Accel_Config.ini");
-		copy_file_from_per("/sensors/AMI304_Config.ini");
-		copy_file_from_per("/sensors/AMI306_Config.ini");
-		copy_file_from_per("/lightsensor/AL3010_Config.ini");
+		copy_file_from_per("sensors/KXTF9_Calibration.ini");
+		copy_file_from_per("sensors/MPU6050_Config.ini");
+		copy_file_from_per("sensors/Accel_Config.ini");
+		copy_file_from_per("sensors/AMI304_Config.ini");
+		copy_file_from_per("sensors/AMI306_Config.ini");
+		copy_file_from_per("lightsensor/AL3010_Config.ini");
 
 		(void)umount(calPartMountPt);
 	}
@@ -175,12 +175,12 @@ int main(int argc, char** argv)
 	//set permissions, etc
 	set_perms_object("/data/sensors", 0751);
 	set_perms_object("/data/lightsensor", 0751);
-	set_perms_file("/sensors/KXTF9_Calibration.ini", 0751);
-	set_perms_file("/sensors/MPU6050_Config.ini", 0751);
-	set_perms_file("/sensors/Accel_Config.ini", 0751);
-	set_perms_file("/sensors/AMI304_Config.ini", 0751);
-	set_perms_file("/sensors/AMI306_Config.ini", 0751);
-	set_perms_file("/lightsensor/AL3010_Config.ini", 0644);
+	set_perms_file("sensors/KXTF9_Calibration.ini", 0751);
+	set_perms_file("sensors/MPU6050_Config.ini", 0751);
+	set_perms_file("sensors/Accel_Config.ini", 0751);
+	set_perms_file("sensors/AMI304_Config.ini", 0751);
+	set_perms_file("sensors/AMI306_Config.ini", 0751);
+	set_perms_file("lightsensor/AL3010_Config.ini", 0644);
 	
 	(void)chown("/data/sensors/KXTF9_Calibration.ini", uid_system, gid_system);
 	
