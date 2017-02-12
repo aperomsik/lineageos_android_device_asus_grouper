@@ -106,6 +106,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     sensors-config \
+    libhealthd.tegra3 \
     lights.grouper \
     audio.primary.grouper \
     power.grouper \
@@ -168,7 +169,6 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
 
 # put SU back for now
