@@ -236,14 +236,15 @@ on boot
     chmod 600 /sys/bus/iio/devices/iio:device1/trigger/current_trigger
 
 # Power management settings
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 50
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 20000
     write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1000000
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 860000
     write /sys/devices/system/cpu/cpufreq/interactive/input_boost 1
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 100000
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 10000
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 50000
     write /sys/module/cpu_tegra3/parameters/no_lp 0
     write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
     write /sys/module/cpuidle/parameters/lp2_in_idle 0

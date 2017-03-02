@@ -186,16 +186,14 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
      * hispeed 700MHz at load 40%
      */
 
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_rate",
-                "50000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time",
-                "500000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load",
-                "75");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/boost_factor",
-		"0");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost",
-		"1");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_rate", "50000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time", "100000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "50");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay", "20000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/boost_factor", "0");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost", "1");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "1");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/hispeed_freq", "860000");
     uevent_init();
 }
 
@@ -203,7 +201,7 @@ static void grouper_power_set_interactive(__attribute__((unused)) struct power_m
                                           __attribute__((unused)) int on)
 {
 	if (on) {
-		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "75");
+		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "50");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_period", "3000000");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_count", "2");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost", "1");
