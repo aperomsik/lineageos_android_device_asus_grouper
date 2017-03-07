@@ -205,12 +205,14 @@ static void grouper_power_set_interactive(__attribute__((unused)) struct power_m
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_period", "3000000");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_count", "2");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost", "1");
+		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "1");
 	}
 	else {
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "85");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_period", "200000");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/core_lock_count", "0");
 		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/input_boost", "0");
+		sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "0");
 	}
 }
 
