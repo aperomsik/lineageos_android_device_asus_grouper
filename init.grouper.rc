@@ -84,6 +84,7 @@ on boot
 # didim
     chown system system /sys/class/graphics/fb0/device/smartdimmer/enable
     chown system system /sys/class/graphics/fb0/device/smartdimmer/aggressiveness
+    chown system system /sys/class/graphics/fb0/device/smartdimmer/phase_in_adjustments
 
 # power
     chown system system /sys/kernel/tegra_cap/core_cap_level
@@ -338,9 +339,14 @@ on boot
 	write /sys/devices/tegradc.0/smartdimmer/enable 0
 	write /sys/devices/host1x/gr3d/enable_3d_scaling 1
 
+# stop ril-daemon if this is a wifi-only device
+on property:ro.carrier=wifi-only
+    stop ril-daemon
+
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets \
     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
