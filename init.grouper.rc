@@ -318,6 +318,7 @@ on boot
 
 # config swap
     write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/swappiness 80
 
 # some additional performance tweaks (to be tested)
 	setprop dalvik.vm.heapgrowthlimit 128m
