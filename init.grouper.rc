@@ -23,6 +23,8 @@ on fs
     setprop ro.crypto.fuse_sdcard true
     mount_all /fstab.grouper
     swapon_all /fstab.grouper
+    mkdir /per 0700 root root
+    mount vfat /dev/block/platform/sdhci-tegra.3/by-name/PER /per ro context=u:object_r:oemfs:s0
 
 on post-fs-data
     # change back to bluetooth from system
@@ -414,13 +416,6 @@ service iprenew_bt-pan /system/bin/dhcpcd -n
     disabled
     oneshot
 
-#Sensor: load calibration files.
-    service sensors-config /system/bin/sensors-config
-    class main
-    user root
-    oneshot
-#Sensor load calibration files end
-
 # set hwui properties depending on the screen resolution and the memory size
 service set_hwui_params /system/bin/set_hwui_params.sh
     class main
@@ -483,5 +478,10 @@ service touch_fw_update /system/bin/touch_fw_update.sh
     disabled
     user root
     group root
+    oneshot
+
+service sensors-calib /system/bin/sensors-load-calibration.sh
+    class main
+    user root
     oneshot
 
