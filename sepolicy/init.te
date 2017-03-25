@@ -11,6 +11,7 @@ allow init sysfs_firmware_writable:file w_file_perms;
 allow init sysfs_devices_tegradc:lnk_file { read };
 
 allow init debugfs:file w_file_perms;
+allow init tmpfs:lnk_file create_file_perms;
 
 # Allow mounting /per
 allow init oemfs:dir mounton;
