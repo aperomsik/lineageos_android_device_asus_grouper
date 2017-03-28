@@ -11,3 +11,6 @@ allow untrusted_app rootfs:dir r_file_perms;
 
 # allow untrusted_app debugfs:file { write rw_file_perms };
 allow untrusted_app sysfs_module_fuse:file { open read };
+allow untrusted_app debugfs:file write;
+allow untrusted_app sysfs:dir read;
+
