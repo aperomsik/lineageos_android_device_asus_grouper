@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2017 The Unlegacy Android Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,42 +14,34 @@
  * limitations under the License.
  */
 
-#include <fcntl.h>
-#include <stddef.h>
+#include <setjmp.h>
 #include <string.h>
 #include <utils/Log.h>
 
-#include <setjmp.h>
-#include <signal.h>
+static jmp_buf restore_point;
+static struct sigaction sa;
 
-jmp_buf restore_point;
-struct sigaction sa;
-
-void segfault_sigaction(int signal __unused, siginfo_t *si __unused, void *arg __unused)
+void segfault_sigaction(int signal __unused,
+                        siginfo_t *si __unused,
+                        void *arg __unused)
 {
-	ALOGE("Segmentation fault! Ignoring.");
-	longjmp(restore_point, SIGSEGV);
+    ALOGE("Segmentation fault! Ignoring.");
+    longjmp(restore_point, SIGSEGV);
 }
 
-// shim NvOsMemcpy
+// NvOsMemcpy replacement
 void NvOsMemcpy(void *dest, const void *src, size_t size)
 {
-	int fault_code = setjmp(restore_point);
-	if (fault_code == 0)
-		memcpy(dest, src, size);
-	else
-		return;
+    if (setjmp(restore_point) == 0)
+        memcpy(dest, src, size);
 }
 
 __attribute__((constructor))
 void libEvtLoading(void)
 {
-	// struct sigaction sa;
-
-	memset(&sa, 0, sizeof(struct sigaction));
-	sigemptyset(&sa.sa_mask);
-	sa.sa_sigaction = segfault_sigaction;
-	sa.sa_flags = SA_SIGINFO;
-
-	sigaction(SIGSEGV, &sa, NULL);
+    memset(&sa, 0, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = segfault_sigaction;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGSEGV, &sa, NULL);
 }
