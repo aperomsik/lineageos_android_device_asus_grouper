@@ -1,1 +1,3 @@
 allow nfc nfc:process ptrace;
+allow nfc sysfs_module_fuse:file read;
+
