@@ -1,6 +1,6 @@
+type sdcard_external;
 type sysfs_firmware_writable, fs_type, sysfs_type;
 type sysfs_devices_tegradc, fs_type, sysfs_type;
 type sysfs_module_fuse, fs_type,sysfs_type;
 type sysfs_module_nvhost, fs_type,sysfs_type;
 
-typealias vfat alias sdcard_external;
