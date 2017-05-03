@@ -67,9 +67,6 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/sensors-load-calibration.sh:system/bin/sensors-load-calibration.sh \
     device/asus/grouper/set_hwui_params.sh:system/bin/set_hwui_params.sh
 
-PRODUCT_PACKAGES += \
-    libnvossh
-
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
 PRODUCT_COPY_FILES += \
     $(TARGET_PREBUILT_WIFI_MODULE):system/lib/modules/bcm4329.ko
