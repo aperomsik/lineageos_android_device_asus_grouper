@@ -1,6 +1,8 @@
 import init.grouper.usb.rc
 
 on early-init
+    # Set init and its forked children's oom_adj.
+    write /proc/1/oom_score_adj -1000
     mount debugfs debugfs /sys/kernel/debug
 
 on init
