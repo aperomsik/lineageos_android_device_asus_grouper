@@ -5,4 +5,5 @@ userdebug_or_eng(`
 
 allow radio system_app_data_file:dir getattr;
 allow radio self:process ptrace;
+allow radio sysfs_module_fuse:file read;
 
