@@ -1,0 +1,3 @@
+# Read access to pseudo filesystems (for /proc/uptime).
+r_dir_file(bootstat, proc)
+
