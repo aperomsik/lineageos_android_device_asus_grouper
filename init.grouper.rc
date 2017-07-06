@@ -254,9 +254,9 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/target_loads 90
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 30000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 780000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 65
-    write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 860000,860000,860000,860000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 90
+    write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 980000,980000,980000,980000
     write /sys/module/cpu_tegra3/parameters/no_lp 0
     write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
     write /sys/module/cpuidle/parameters/lp2_in_idle 0

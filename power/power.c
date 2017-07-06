@@ -193,8 +193,8 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads","90");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate","10000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack","30000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","780000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","65");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","860000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","90");
     uevent_init();
 }
 
