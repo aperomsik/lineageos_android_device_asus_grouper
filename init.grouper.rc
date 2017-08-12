@@ -4,6 +4,8 @@ on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_score_adj -1000
     mount debugfs debugfs /sys/kernel/debug
+    mount -t cgroup -o timer_slack none /sys/fs/cgroup
+    echo 100000 > /sys/fs/cgroup/timer_slack.min_slack_ns
 
 on init
     symlink /sdcard /storage/sdcard0
