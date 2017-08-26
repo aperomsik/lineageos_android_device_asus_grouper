@@ -184,7 +184,7 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay","30000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration","100000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","75");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","90");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq","860000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time","40000");

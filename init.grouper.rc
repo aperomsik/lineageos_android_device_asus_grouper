@@ -247,7 +247,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 100000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 75 
+    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 90 
     write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 860000
     write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 40000
@@ -348,8 +348,8 @@ on boot
 
 # initialize KSM
     write /sys/kernel/mm/ksm/deferred_timer 1
-    write /sys/kernel/mm/ksm/pages_to_scan 100
-    write /sys/kernel/mm/ksm/sleep_millisecs 500
+    write /sys/kernel/mm/ksm/pages_to_scan 256
+    write /sys/kernel/mm/ksm/sleep_millisecs 1500
     write /sys/kernel/mm/ksm/run 1
 
 # config swap
@@ -361,7 +361,7 @@ on boot
 	setprop dalvik.vm.heapgrowthlimit 128m
 	setprop dalvik.vm.heapsize 174m
 	write /sys/module/lowmemorykiller/parameters/adj "0,1,2,7,14,15"
-	write /sys/module/lowmemorykiller/parameters/minfree "8192,10240,12288,14336,16384,32768"
+	write /sys/module/lowmemorykiller/parameters/minfree "8192,10240,12288,14336,16384,20480"
 	write /sys/module/lowmemorykiller/parameters/cost 48
 	write /proc/sys/vm/highmem_is_dirtyable 1
 	write /sys/block/mmcblk0/queue/scheduler cfq
