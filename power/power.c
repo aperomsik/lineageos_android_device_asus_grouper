@@ -189,12 +189,12 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time","40000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor","60000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq","475000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq","760000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads","90");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate","10000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack","30000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","860000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","90");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","760000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","65");
     uevent_init();
 }
 
