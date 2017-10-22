@@ -243,21 +243,21 @@ on boot
     chmod 600 /sys/bus/iio/devices/iio:device1/trigger/current_trigger
 
 # Power management settings
-    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 30000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 20000
     write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
-    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 100000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 50000
     write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 90
     write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 860000
     write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
-    write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 40000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 10000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 20000
     write /sys/devices/system/cpu/cpufreq/intelliactive/sync_freq 620000
     write /sys/devices/system/cpu/cpufreq/intelliactive/target_loads 90
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 30000
     write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 720000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 90
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 80
     write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 860000,860000,860000,860000
     write /sys/module/cpu_tegra3/parameters/no_lp 0
     write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
