@@ -184,8 +184,8 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay","20000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration","50000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","80");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq","860000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","75");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq","1000000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time","10000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor","20000");
@@ -193,8 +193,8 @@ static void grouper_power_init( __attribute__((unused)) struct power_module *mod
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads","90");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate","10000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack","30000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","620000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","80");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","860000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","90");
     uevent_init();
 }
 
