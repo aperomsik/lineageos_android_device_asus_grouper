@@ -30,10 +30,6 @@ allow system_server sysfs_module_nvhost:file r_file_perms;
 allow system_server sysfs_module_fuse:file r_file_perms;
 allow system_server unlabeled:dir_file_class_set { unlink };
 
-# allow ptrace
-allow system_server servicemanager:process ptrace;
-allow system_server system_app:process ptrace;
-
 allow system_server zygote:binder call;
 
 allow system_server user_profile_data_file:dir read;
@@ -41,4 +37,24 @@ allow system_server user_profile_data_file:dir open;
 
 allow system_server logd:dir read;
 allow system_server logd:dir open;
+
+# allow ptrace
+allow system_server servicemanager:process ptrace;
+allow system_server system_app:process ptrace;
+allow system_server adbd:process ptrace;
+allow system_server audioserver:process ptrace;
+allow system_server debuggerd:process ptrace;
+allow system_server drmserver:process ptrace;
+allow system_server gpsd:process ptrace;
+allow system_server healthd:process ptrace;
+allow system_server installd:process ptrace;
+allow system_server lmkd:process ptrace;
+allow system_server logd:process ptrace;
+allow system_server mediacodec:process ptrace;
+allow system_server mediadrmserver:process ptrace;
+allow system_server su:process ptrace;
+allow system_server surfaceflinger:process ptrace;
+allow system_server ueventd:process ptrace;
+allow system_server vold:process ptrace;
+allow system_server zygote:process ptrace;
 
