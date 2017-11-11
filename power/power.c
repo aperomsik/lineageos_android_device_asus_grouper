@@ -39,6 +39,7 @@
 #define SLEEP_USEC_BETWN_RETRY 200
 #define LOW_POWER_MAX_FREQ "620000"
 #define LOW_POWER_MIN_FREQ "51000"
+#define NORMAL_MIN_FREQ "204000"
 #define NORMAL_MAX_FREQ "1300000"
 #define UEVENT_STRING "online@/devices/system/cpu/"
 
@@ -181,20 +182,20 @@ static void uevent_init()
 
 static void grouper_power_init( __attribute__((unused)) struct power_module *module)
 {
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay","20000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay","10000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse","1");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration","50000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","75");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration","40000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load","90");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq","1000000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy","1");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time","10000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor","20000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq","370000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads","90");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor","60000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq","513000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads","85");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate","10000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack","30000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack","20000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq","860000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","90");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load","80");
     uevent_init();
 }
 
@@ -202,13 +203,10 @@ static void grouper_power_set_interactive(__attribute__((unused)) struct power_m
                                           __attribute__((unused)) int on)
 {
 	if (on) {
-		sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", "1");
+    		sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse","1");
     		sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", "1");
-    		sysfs_write("/sys/module/intelli_plug/parameters/nr_run_profile_sel", "0");
 	} else {
-		sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", "0");
     		sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", "0");
-    		sysfs_write("/sys/module/intelli_plug/parameters/nr_run_profile_sel", "4");
 	}
 }
 
@@ -236,6 +234,7 @@ static void grouper_power_hint(__attribute__((unused)) struct power_module *modu
         } else {
             low_power_mode = false;
             for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
+                sysfs_write(cpu_path_min[cpu], NORMAL_MIN_FREQ);
                 ret = sysfs_write(cpu_path_max[cpu], NORMAL_MAX_FREQ);
                 if (!ret) {
                     freq_set[cpu] = false;
