@@ -10,4 +10,11 @@ allow priv_app zygote:file { open read };
 
 allow priv_app cache_private_backup_file:dir getattr;
 
+allow priv_app bluetooth_data_file:dir getattr;
+allow priv_app configfs:dir read;
+allow priv_app debugfs:file write;
+allow priv_app mnt_media_rw_file:dir getattr;
+allow priv_app nfc_data_file:dir getattr;
+allow priv_app radio_data_file:dir getattr;
+allow priv_app system_app_data_file:dir getattr;
 
