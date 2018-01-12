@@ -57,4 +57,11 @@ allow system_server surfaceflinger:process ptrace;
 allow system_server ueventd:process ptrace;
 allow system_server vold:process ptrace;
 allow system_server zygote:process ptrace;
-
+allow system_server gatekeeperd:process ptrace;
+allow system_server mediaextractor:process ptrace;
+allow system_server mediaserver:process ptrace;
+allow system_server netd:process ptrace;
+allow system_server nfc:process ptrace;
+allow system_server sdcardd:process ptrace;
+allow system_server shell:process ptrace;
+allow system_server wpa:process ptrace;
