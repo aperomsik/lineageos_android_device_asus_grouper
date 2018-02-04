@@ -38,9 +38,29 @@ PRODUCT_PROPERTY_OVERRIDES := \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
 
+#--------------------------------------------------------------------------------------------------
+# check for 7.x (normally starting with 8.1)
+#--------------------------------------------------------------------------------------------------
 # disable Captive portal check
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.disable_captive_portal=1
+
+# Set lowram options
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lmk.critical_upgrade=true \
+    ro.lmk.upgrade_pressure=40
+
+# Speed profile services and wifi-service to reduce RAM and storage.
+PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
+# Always preopt extracted APKs to prevent extracting out of the APK for gms
+# modules.
+PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
+# Default heap sizes. Allow up to 256m for large heaps to make sure a single app
+# doesn't take all of the RAM.
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapgrowthlimit=128m
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapsize=256m
+
+#--------------------------------------------------------------------------------------------------
 
 # ART
 PRODUCT_PROPERTY_OVERRIDES += \

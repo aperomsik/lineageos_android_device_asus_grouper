@@ -31,7 +31,7 @@ persist.tegra.didim.normal = 3
 
 # Dalvik and other tweaks
 dalvik.vm.heapgrowthlimit=128m
-dalvik.vm.heapsize=174m
+dalvik.vm.heapsize=256m
 dalvik.vm.verify-bytecode=false
 persist.adb.notify=0
 ro.kernel.android.checkjni=0
@@ -63,3 +63,4 @@ persist.service.adb.enable=1
 persist.sys.usb.config=mtp,adb
 
 ro.opa.eligible_device=true
+#ro.sys.sdcardfs=true

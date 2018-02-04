@@ -3,6 +3,7 @@ import init.grouper.usb.rc
 on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_score_adj -1000
+    write /proc/1/oom_adj -1000
     mount debugfs debugfs /sys/kernel/debug
     mount -t cgroup -o timer_slack none /sys/fs/cgroup
     echo 250000 > /sys/fs/cgroup/timer_slack.min_slack_ns
@@ -252,7 +253,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 1000000
     write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 20000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 40000
     write /sys/devices/system/cpu/cpufreq/intelliactive/sync_freq 640000
     write /sys/devices/system/cpu/cpufreq/intelliactive/target_loads 85
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
@@ -293,6 +294,11 @@ on boot
     chown system system /sys/module/intelli_plug/parameters/nr_run_hysteresis
     chown system system /sys/module/intelli_plug/parameters/screen_off_max
     chown system system /sys/module/intelli_plug/parameters/intelli_plug_active
+    chown system system /sys/module/lowmemorykiller/parameters/adj
+    chown system system /sys/module/lowmemorykiller/parameters/debug
+    chown system system /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+    chown system system /sys/module/lowmemorykiller/parameters/minfree
+    chown system system /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/boost
@@ -318,6 +324,11 @@ on boot
     chmod 0600 /sys/module/intelli_plug/parameters/nr_run_hysteresis
     chmod 0600 /sys/module/intelli_plug/parameters/screen_off_max
     chmod 0600 /sys/module/intelli_plug/parameters/intelli_plug_active
+    chmod 0660 /sys/module/lowmemorykiller/parameters/adj
+    chmod 0660 /sys/module/lowmemorykiller/parameters/debug
+    chmod 0660 /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+    chmod 0660 /sys/module/lowmemorykiller/parameters/minfree
+    chmod 0660 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
 # Default Read Ahead value for sdcards
     write /sys/block/mmcblk0/queue/read_ahead_kb 128
@@ -364,10 +375,14 @@ on boot
 
 # some additional performance tweaks (to be tested)
 	setprop dalvik.vm.heapgrowthlimit 128m
-	setprop dalvik.vm.heapsize 174m
+	setprop dalvik.vm.heapsize 256m
 	write /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,9,12"
-	write /sys/module/lowmemorykiller/parameters/minfree "8192,10240,12288,14336,16384,20480"
+	write /sys/module/lowmemorykiller/parameters/minfree "15360,19200,23040,26880,34415,43737"
 	write /sys/module/lowmemorykiller/parameters/cost 48
+	# Enable Adaptive LMK
+	write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+	write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+
 	write /proc/sys/vm/highmem_is_dirtyable 1
 	write /sys/block/mmcblk0/queue/scheduler cfq
 	write /sys/block/mmcblk0/queue/nr_requests 512
