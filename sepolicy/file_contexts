@@ -12,11 +12,16 @@
 /dev/ttyHS2                       u:object_r:hci_attach_dev:s0
 /dev/ttyACM0                      u:object_r:radio_device:s0
 /dev/ttyACM1                      u:object_r:baseband_log_device:s0
+/dev/cpu_freq_min                 u:object_r:pmqos_device:s0
+/dev/cpu_freq_max                 u:object_r:pmqos_device:s0
+/dev/min_online_cpus              u:object_r:pmqos_device:s0
+/dev/max_online_cpus              u:object_r:pmqos_device:s0
 
 /data/amit(/.*)?                  u:object_r:sensors_data_file:s0
 /data/calibration(/.*)?           u:object_r:sensors_data_file:s0
 /data/lightsensor(/.*)?           u:object_r:sensors_data_file:s0
 /data/sensors(/.*)?               u:object_r:sensors_data_file:s0
+
 /data/tf(/.*)?                    u:object_r:tee_data_file:s0
 
 /system/bin/brcm_patchram_plus -- u:object_r:hci_attach_exec:s0
@@ -29,10 +34,17 @@
 /sys/devices/platform/bcm4330_rfkill/rfkill/rfkill0/state   --  u:object_r:sysfs_bluetooth_writable:s0
 /sys/devices/platform/bcm4330_rfkill/rfkill/rfkill0/type    --  u:object_r:sysfs_bluetooth_writable:s0
 
-# Hardware tunable
+# Sysfs files
 /sys/devices/tegradc.0/smartdimmer/enable              u:object_r:sysfs_writable:s0
-/sys/class/gpio/gpio162/value		u:object_r:sysfs_firmware_writable:s0
-/sys/class/gpio/gpio162/direction	u:object_r:sysfs_firmware_writable:s0
+/sys/class/gpio/gpio162/value                                u:object_r:sysfs_firmware_writable:s0
+/sys/class/gpio/gpio162/direction                            u:object_r:sysfs_firmware_writable:s0
+/sys/devices/platform/host1x/tegradc\.0(/.*)?                u:object_r:sysfs_devices_tegradc:s0
+/sys/devices/platform/host1x/tegradc\.1(/.*)?                u:object_r:sysfs_devices_tegradc:s0
+/sys/devices/platform/host1x/nvavp/boost_sclk                u:object_r:sysfs_devices_nvavp:s0
+/sys/devices/system/cpu/cpuquiet/runnable(/.*)?              u:object_r:sysfs_devices_system_cpu:s0
+/sys/module/tegra_fuse/parameters/tegra_chip_id              u:object_r:sysfs_modules_tegrafuse:s0
+/sys/module/tegra_fuse/parameters/tegra_chip_rev             u:object_r:sysfs_modules_tegrafuse:s0
+/sys/kernel/debug/scaling/use_throughput_hint                u:object_r:debugfs_pmqos:s0
 
 /dev/block/mmcblk0				u:object_r:root_block_device:s0
 /dev/block/platform/sdhci-tegra.3/by-name/UDA	u:object_r:userdata_block_device:s0

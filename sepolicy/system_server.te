@@ -1,6 +1,8 @@
 allow system_server { knv_device }:chr_file rw_file_perms;
 allow system_server elan_ip_device:chr_file rw_file_perms;
 
+allow system_server pmqos_device:chr_file { read open write };
+
 # Access .gps.interface.pipe.to_gpsd.
 allow system_server gps_data_file:dir rw_dir_perms;
 allow system_server gps_data_file:fifo_file { setattr rw_file_perms create };

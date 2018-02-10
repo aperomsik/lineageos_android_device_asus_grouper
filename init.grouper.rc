@@ -20,9 +20,6 @@ on init
 on early-boot
     setprop ro.audio.flinger_standbytime_ms 15000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intelliactive
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intelliactive
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intelliactive
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intelliactive
 
 on fs
     setprop ro.crypto.umount_sd false
@@ -98,6 +95,19 @@ on boot
     chown system system /sys/kernel/tegra_cap/core_cap_level
     chown system system /sys/kernel/tegra_cap/core_cap_state
     chown system system /sys/module/cpu_tegra/parameters/cpu_user_cap
+    # Setting the cpuquiet governor resets the sysfs permissions, so we set it here
+    write /sys/devices/system/cpu/cpuquiet/current_governor balanced
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 1
+    write /sys/module/cpuidle_t3/parameters/lp2_0_in_idle 0
+    restorecon_recursive /sys/devices/system/cpu/cpuquiet/balanced
+    chown system system /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp
+    chown system system /sys/devices/platform/host1x/nvavp/boost_sclk
+    chown system system /sys/devices/tegradc.0/enable
+    chown system system /sys/devices/tegradc.1/enable
+    chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp
+    chmod 0660 /sys/devices/platform/host1x/nvavp/boost_sclk
+    chmod 0660 /sys/devices/tegradc.0/enable
+    chmod 0660 /sys/devices/tegradc.1/enable
 
 # Sensor
 # iio
@@ -244,32 +254,8 @@ on boot
     chmod 600 /sys/bus/iio/devices/iio:device1/scan_elements/in_timestamp_en
     chmod 600 /sys/bus/iio/devices/iio:device1/trigger/current_trigger
 
-# Power management settings
-    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 40000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
-    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
-    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 80000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 95
-    write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 1000000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
-    write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 40000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/sync_freq 640000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/target_loads 85
-    write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 40000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85 
-    write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 475000,640000,860000,1000000
-    write /sys/module/cpu_tegra3/parameters/no_lp 0
-    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
-    write /sys/module/cpuidle/parameters/lp2_in_idle 0
-    write /sys/module/intelli_plug/parameters/cpu_nr_run_threshold 4000
-    write /sys/module/intelli_plug/parameters/nr_run_hysteresis 12
-    write /sys/module/intelli_plug/parameters/screen_off_max 640000
-    write /sys/module/intelli_plug/parameters/intelli_plug_active 0
-
 # Intelliactive governor settings
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/boost
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse
@@ -300,6 +286,7 @@ on boot
     chown system system /sys/module/lowmemorykiller/parameters/minfree
     chown system system /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/boost
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse
@@ -330,6 +317,51 @@ on boot
     chmod 0660 /sys/module/lowmemorykiller/parameters/minfree
     chmod 0660 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
+# Power management settings
+
+    # Conservative governor settings
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor conservative
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor conservative
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor conservative
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor conservative
+    write /sys/devices/system/cpu/cpufreq/conservative/up_threshold 95
+    write /sys/devices/system/cpu/cpufreq/conservative/down_threshold 50
+    write /sys/devices/system/cpu/cpufreq/conservative/freq_step 3
+    restorecon_recursive /sys/devices/system/cpu/cpufreq/conservative
+
+    # Intelliactive governor settings
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
+    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
+    write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 80000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 1000000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 20000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor 40000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/sync_freq 640000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/target_loads 85
+    write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 40000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85 
+    write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 475000,640000,860000,1000000
+    write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
+    write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
+    restorecon_recursive /sys/devices/system/cpu/cpufreq/intelliactive
+
+    write /sys/module/cpu_tegra3/parameters/no_lp 0
+    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
+    write /sys/module/cpuidle/parameters/lp2_in_idle 0
+    write /sys/module/intelli_plug/parameters/nr_run_profile_sel 0
+    write /sys/module/intelli_plug/parameters/cpu_nr_run_threshold 4000
+    write /sys/module/intelli_plug/parameters/nr_run_hysteresis 12
+    write /sys/module/intelli_plug/parameters/screen_off_max 640000
+    write /sys/module/intelli_plug/parameters/intelli_plug_active 0
 # Default Read Ahead value for sdcards
     write /sys/block/mmcblk0/queue/read_ahead_kb 128
     write /sys/block/mmcblk0/queue/nr_requests 512

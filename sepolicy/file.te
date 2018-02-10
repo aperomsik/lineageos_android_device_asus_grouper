@@ -3,4 +3,7 @@ type sysfs_firmware_writable, fs_type, sysfs_type;
 type sysfs_devices_tegradc, fs_type, sysfs_type;
 type sysfs_module_fuse, fs_type,sysfs_type;
 type sysfs_module_nvhost, fs_type,sysfs_type;
+type sysfs_modules_tegrafuse, fs_type, sysfs_type;
+type sysfs_devices_nvavp, fs_type, sysfs_type;
+type debugfs_pmqos, fs_type, debugfs_type;
 
