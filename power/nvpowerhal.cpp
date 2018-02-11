@@ -156,7 +156,7 @@ void common_power_open(struct powerhal_info *pInfo)
     pInfo->max_frequency = pInfo->available_frequencies[pInfo->num_available_frequencies - 1];
 
     // Store LP cluster max frequency
-    sysfs_read("/sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/idle_top_freq",
+    sysfs_read("/sys/module/cpu_tegra3/parameters/idle_top_freq",
                 buf, size);
     pInfo->lp_max_frequency = atoi(buf);
 
@@ -196,6 +196,22 @@ void common_power_init(__attribute__ ((unused)) struct power_module *module,
 
     pInfo->ftrace_enable = get_property_bool("nvidia.hwc.ftrace_enable", false);
 
+    // set default intelliactive definitions
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay", 20000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration", 80000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load", 95);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq", 1000000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time", 20000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor", 40000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq", 640000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads", 85);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate", 10000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack", 40000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq", 860000);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load", 85);
+
     // Boost to max frequency on initialization to decrease boot time
     pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min", pInfo->max_frequency,
                                      s2ns(60));
@@ -212,7 +228,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     char path[80];
     const char* state = (0 == on)?"0":"1";
     const char* lp_state = (on)?"1":"0";
-    const char* gov = (on == 0)?"conservative":"intelliactive";
+    const char* gov = (on == 0)?"intelliactive":"intelliactive";
 
     sysfs_write("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", gov);
     ALOGI("Setting scaling_governor to %s", gov);
@@ -221,7 +237,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     ALOGI("Setting low power cluster %s", lp_state);
 
     if (on) {
-        sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boost", state);
+        sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", state);
         ALOGI("Setting boost %s", state);
     }
 
@@ -253,29 +269,13 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
         sysfs_read(display_mode, mode, 9);
         ALOGD("Display mode is currently %s", mode);
         if ( strncmp(mode,"offline",7) == 0 ) {
-            ALOGI("Screen is off, setting relaxed values for conservative governor");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/conservative/up_threshold", 95);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/conservative/down_threshold", 50);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/conservative/freq_step", 3);
+            ALOGI("Screen is off, setting relaxed values for intelliactive governor");
+            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 0);
+            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
         } else {
             ALOGI("Screen is on, setting aggressive values for intelliactive governor");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay", 20000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boost", 0);
             sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration", 80000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load", 95);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq", 1000000);
             sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time", 20000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/sampling_down_factor", 40000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/sync_freq", 640000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/target_loads", 85);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate", 10000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack", 40000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq", 860000);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load", 85);
-            sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq", "475000,640000,860000,1000000");
-
         }
     }
 
@@ -310,7 +310,7 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
         break;
 #ifdef ANDROID_API_LP_OR_LATER
 	case POWER_HINT_LOW_POWER:
-		break;
+	break;
 #endif
     default:
         ALOGE("Unknown power hint: 0x%x", hint);

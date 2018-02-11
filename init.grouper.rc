@@ -20,6 +20,10 @@ on init
 on early-boot
     setprop ro.audio.flinger_standbytime_ms 15000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intelliactive
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intelliactive
+
 
 on fs
     setprop ro.crypto.umount_sd false
@@ -318,17 +322,6 @@ on boot
     chmod 0660 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
 # Power management settings
-
-    # Conservative governor settings
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor conservative
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor conservative
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor conservative
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor conservative
-    write /sys/devices/system/cpu/cpufreq/conservative/up_threshold 95
-    write /sys/devices/system/cpu/cpufreq/conservative/down_threshold 50
-    write /sys/devices/system/cpu/cpufreq/conservative/freq_step 3
-    restorecon_recursive /sys/devices/system/cpu/cpufreq/conservative
-
     # Intelliactive governor settings
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intelliactive
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intelliactive
