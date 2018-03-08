@@ -21,6 +21,30 @@
 #include "powerhal_utils.h"
 #include "powerhal.h"
 
+#define TOTAL_CPUS 4
+#define LOW_POWER_MAX_FREQ "620000"
+#define LOW_POWER_MIN_FREQ "204000"
+#define NORMAL_MIN_FREQ "204000"
+#define NORMAL_MAX_FREQ "1300000"
+
+static char *cpu_path_min[] = {
+    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq",
+    "/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq",
+    "/sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq",
+    "/sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq",
+};
+
+static char *cpu_path_max[] = {
+    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
+    "/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq",
+    "/sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq",
+    "/sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq",
+};
+
+static bool freq_set[TOTAL_CPUS];
+static bool low_power_mode = false;
+static pthread_mutex_t low_power_mode_lock = PTHREAD_MUTEX_INITIALIZER;
+
 static int get_input_count(void)
 {
     int i = 0;
@@ -284,6 +308,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
 void common_power_hint(__attribute__ ((unused)) struct power_module *module,
         struct powerhal_info *pInfo, power_hint_t hint, __attribute__ ((unused)) void *data)
 {
+    int len, cpu, ret;
     uint64_t t;
 
     if (!pInfo)
@@ -296,22 +321,29 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
     case POWER_HINT_VSYNC:
         break;
     case POWER_HINT_INTERACTION:
+        pthread_mutex_lock(&low_power_mode_lock);
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_INTERACTION\n");
         }
-        // Stutters observed during transition animations at lower frequencies
-        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
-                                                 pInfo->max_frequency,
-                                                 ms2ns(2000));
-        // Keeps a minimum of 2 cores online for 2s
-        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
-                                                 DEFAULT_MIN_ONLINE_CPUS,
-                                                 ms2ns(2000));
+        low_power_mode = false;
+        for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
+            sysfs_write(cpu_path_min[cpu], NORMAL_MIN_FREQ);
+            sysfs_write(cpu_path_max[cpu], NORMAL_MAX_FREQ);
+        }
+        pthread_mutex_unlock(&low_power_mode_lock);
         break;
-#ifdef ANDROID_API_LP_OR_LATER
 	case POWER_HINT_LOW_POWER:
+        pthread_mutex_lock(&low_power_mode_lock);
+        if (pInfo->ftrace_enable) {
+            sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_LOW_POWER\n");
+        }
+        low_power_mode = true;
+        for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
+             sysfs_write(cpu_path_min[cpu], LOW_POWER_MIN_FREQ);
+             sysfs_write(cpu_path_max[cpu], LOW_POWER_MAX_FREQ);
+        }
+        pthread_mutex_unlock(&low_power_mode_lock);
 	break;
-#endif
     default:
         ALOGE("Unknown power hint: 0x%x", hint);
         break;
