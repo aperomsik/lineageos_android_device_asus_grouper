@@ -245,7 +245,7 @@ on boot
     chmod 600 /sys/bus/iio/devices/iio:device1/trigger/current_trigger
 
 # Power management settings
-    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 40000
     write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 80000
