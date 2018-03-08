@@ -45,6 +45,8 @@
 
 /system/bin/setup_fs	--	u:object_r:setupfs_exec:s0
 /system/bin/touch_fw_update.sh	u:object_r:touchfw_exec:s0
+/system/bin/set_hwui_params.sh  u:object_r:hwui_exec:s0
+/system/bin/sensors-load-calibration.sh u:object_r:sensors_config_exec:s0
 /system/bin/gps_daemon.sh	u:object_r:glgps_exec:s0
 /system/vendor/bin/tf_daemon	u:object_r:tee_exec:s0
 

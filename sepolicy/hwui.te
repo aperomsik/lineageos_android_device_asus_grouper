@@ -1,0 +1,8 @@
+type hwui, domain;
+type hwui_exec, exec_type, file_type;
+
+# Started by init
+init_daemon_domain(hwui)
+
+allow hwui shell_exec:file r_file_perms;
+allow hwui rootfs:lnk_file getattr;
