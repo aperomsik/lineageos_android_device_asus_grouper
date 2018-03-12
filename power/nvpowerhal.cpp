@@ -29,16 +29,10 @@
 
 static char *cpu_path_min[] = {
     "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq",
-    "/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq",
-    "/sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq",
-    "/sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq",
 };
 
 static char *cpu_path_max[] = {
     "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
-    "/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq",
-    "/sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq",
-    "/sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq",
 };
 
 static bool freq_set[TOTAL_CPUS];
@@ -261,8 +255,19 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     ALOGI("Setting low power cluster %s", lp_state);
 
     if (on) {
-        sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", state);
         ALOGI("Setting boost %s", state);
+        sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", state);
+        ALOGI("Screen is on, setting aggressive values for intelliactive governor");
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
+        sysfs_write(cpu_path_min[0], NORMAL_MIN_FREQ);
+        sysfs_write(cpu_path_max[0], NORMAL_MAX_FREQ);
+    } else {
+        ALOGI("Screen is off, setting relaxed values for intelliactive governor");
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 0);
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
+        sysfs_write(cpu_path_min[0], LOW_POWER_MIN_FREQ);
+        sysfs_write(cpu_path_max[0], LOW_POWER_MAX_FREQ);
     }
 
     if (0 != pInfo) {
@@ -294,12 +299,8 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
         ALOGD("Display mode is currently %s", mode);
         if ( strncmp(mode,"offline",7) == 0 ) {
             ALOGI("Screen is off, setting relaxed values for intelliactive governor");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 0);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
         } else {
             ALOGI("Screen is on, setting aggressive values for intelliactive governor");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
         }
     }
 
@@ -321,28 +322,26 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
     case POWER_HINT_VSYNC:
         break;
     case POWER_HINT_INTERACTION:
+        ALOGI("POWER_HINT_INTERACTION: triggering boostpulse");
         pthread_mutex_lock(&low_power_mode_lock);
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_INTERACTION\n");
         }
         low_power_mode = false;
-        for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
-            sysfs_write(cpu_path_min[cpu], NORMAL_MIN_FREQ);
-            sysfs_write(cpu_path_max[cpu], NORMAL_MAX_FREQ);
-        }
         pthread_mutex_unlock(&low_power_mode_lock);
         break;
-	case POWER_HINT_LOW_POWER:
-        pthread_mutex_lock(&low_power_mode_lock);
-        if (pInfo->ftrace_enable) {
-            sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_LOW_POWER\n");
-        }
-        low_power_mode = true;
-        for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
-             sysfs_write(cpu_path_min[cpu], LOW_POWER_MIN_FREQ);
-             sysfs_write(cpu_path_max[cpu], LOW_POWER_MAX_FREQ);
-        }
-        pthread_mutex_unlock(&low_power_mode_lock);
+    case POWER_HINT_LOW_POWER:
+        //ALOGI("POWER_HINT_LOW_POWER: setting LOW_POWER_MIN/MAX_FREQ");
+        //pthread_mutex_lock(&low_power_mode_lock);
+	//common_power_set_interactive(module, pInfo, 0);
+        //if (pInfo->ftrace_enable) {
+        //    sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_LOW_POWER\n");
+        //}
+        //low_power_mode = true;
+        //sysfs_write(cpu_path_min[0], LOW_POWER_MIN_FREQ);
+        //sysfs_write(cpu_path_max[0], LOW_POWER_MAX_FREQ);
+        //pthread_mutex_unlock(&low_power_mode_lock);
 	break;
     default:
         ALOGE("Unknown power hint: 0x%x", hint);

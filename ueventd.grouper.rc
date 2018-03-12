@@ -35,3 +35,22 @@
 /dev/radio      0666    system  radio
 /dev/ion        0666    system  system
 /dev/pn544      0660    nfc     nfc
+
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_governor   0660  system system
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0660  system system
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0660  system system
+
+/sys/devices/system/cpu/cpufreq intelliactive/boostpulse 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/above_hispeed_delay 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/go_hispeed_load 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/hispeed_freq 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/io_is_busy 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/min_sample_time 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/sampling_down_factor 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/sync_freq 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/target_loads 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/timer_rate 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/timer_slack 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/up_threshold_any_cpu_freq 0660  system system
+/sys/devices/system/cpu/cpufreq intelliactive/up_threshold_any_cpu_load 0660  system system
+
