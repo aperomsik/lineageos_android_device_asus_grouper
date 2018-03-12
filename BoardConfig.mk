@@ -49,6 +49,8 @@ TARGET_ENABLE_NON_PIE_SUPPORT := true
 # WITH_DEXPREOPT := true
 # commented due to clang unknown flag -mapcs
 # HWUI_COMPILE_FOR_PERF := true
+BOARD_EGL_WORKAROUND_BUG_10194508 := true
+
 $(call add-product-dex-preopt-module-config,services,--compiler-filter=everything)
 PRODUCT_PROPERTY_OVERRIDES += \
 dalvik.vm.dex2oat-flags=--no-watch-dog \
