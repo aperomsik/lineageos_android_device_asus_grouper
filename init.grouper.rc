@@ -193,6 +193,12 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq
     restorecon_recursive /sys/devices/system/cpu/cpufreq/intelliactive
 
+# autosmp settings
+    write /sys/module/autosmp/parameters/enabled "Y"
+    chown system system /sys/module/autosmp/parameters/enabled
+    chmod 0660 /sys/module/autosmp/parameters/enabled
+
+
 # Sensor
 # iio
     chown system system /dev/iio:device0
