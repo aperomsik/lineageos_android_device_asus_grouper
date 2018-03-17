@@ -100,10 +100,11 @@ on boot
     chown system system /sys/kernel/tegra_cap/core_cap_level
     chown system system /sys/kernel/tegra_cap/core_cap_state
     chown system system /sys/module/cpu_tegra/parameters/cpu_user_cap
+    chown system system /sys/kernel/cluster/active
     # Setting the cpuquiet governor resets the sysfs permissions, so we set it here
     write /sys/devices/system/cpu/cpuquiet/current_governor balanced
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 1
-    write /sys/module/cpuidle_t3/parameters/lp2_0_in_idle 0
+    write /sys/module/cpuidle/parameters/lp2_in_idle 0
     restorecon_recursive /sys/devices/system/cpu/cpuquiet/balanced
     chown system system /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp
     chown system system /sys/devices/platform/host1x/nvavp/boost_sclk
@@ -113,6 +114,7 @@ on boot
     chmod 0660 /sys/devices/platform/host1x/nvavp/boost_sclk
     chmod 0660 /sys/devices/tegradc.0/enable
     chmod 0660 /sys/devices/host1x/gr3d/enable_3d_scaling
+    chmod 0660 /sys/kernel/cluster/active
 
     # Intelliactive governor settings
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intelliactive
@@ -123,7 +125,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 80000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load 90
     write /sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq 1000000
     write /sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time 20000
@@ -133,7 +135,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 40000
     write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85 
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 80 
     write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 475000,640000,860000,1000000
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
@@ -377,8 +379,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
 
     write /sys/module/cpu_tegra3/parameters/no_lp 0
-    write /sys/module/cpu_tegra3/parameters/auto_hotplug 1
-    write /sys/module/cpuidle/parameters/lp2_in_idle 0
+    write /sys/module/cpu_tegra3/parameters/auto_hotplug 0
     write /sys/module/intelli_plug/parameters/nr_run_profile_sel 0
     write /sys/module/intelli_plug/parameters/cpu_nr_run_threshold 4000
     write /sys/module/intelli_plug/parameters/nr_run_hysteresis 12

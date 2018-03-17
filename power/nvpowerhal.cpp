@@ -218,7 +218,7 @@ void common_power_init(__attribute__ ((unused)) struct power_module *module,
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay", 20000);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration", 80000);
-    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load", 95);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/go_hispeed_load", 90);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/hispeed_freq", 1000000);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/min_sample_time", 20000);
@@ -228,7 +228,7 @@ void common_power_init(__attribute__ ((unused)) struct power_module *module,
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_rate", 10000);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/timer_slack", 40000);
     sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq", 860000);
-    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load", 85);
+    sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load", 80);
 
     // Boost to max frequency on initialization to decrease boot time
     pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min", pInfo->max_frequency,
@@ -256,6 +256,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
 
     if (on) {
         ALOGI("Setting boost %s", state);
+        sysfs_write("/sys/kernel/cluster/active", "G");
         sysfs_write("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", state);
         ALOGI("Screen is on, setting aggressive values for intelliactive governor");
         sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
@@ -264,6 +265,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
         sysfs_write(cpu_path_max[0], NORMAL_MAX_FREQ);
     } else {
         ALOGI("Screen is off, setting relaxed values for intelliactive governor");
+        sysfs_write("/sys/kernel/cluster/active", "LP");
         sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 0);
         sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
         sysfs_write(cpu_path_min[0], LOW_POWER_MIN_FREQ);
@@ -322,9 +324,13 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
     case POWER_HINT_VSYNC:
         break;
     case POWER_HINT_INTERACTION:
-        ALOGI("POWER_HINT_INTERACTION: triggering boostpulse");
+        ALOGI("POWER_HINT_INTERACTION");
         pthread_mutex_lock(&low_power_mode_lock);
-        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
+        if (low_power_mode) {
+           sysfs_write("/sys/module/cpu_tegra3/parameters/no_lp", 0);
+           sysfs_write("/sys/kernel/cluster/active", "G");
+        }
+        //sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_INTERACTION\n");
         }
@@ -332,7 +338,14 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
         pthread_mutex_unlock(&low_power_mode_lock);
         break;
     case POWER_HINT_LOW_POWER:
-        //ALOGI("POWER_HINT_LOW_POWER: setting LOW_POWER_MIN/MAX_FREQ");
+        ALOGI("POWER_HINT_LOW_POWER");
+        pthread_mutex_lock(&low_power_mode_lock);
+        if (!low_power_mode) {
+           sysfs_write_int("/sys/module/cpu_tegra3/parameters/no_lp", -1);
+           sysfs_write("/sys/kernel/cluster/active", "LP");
+        }
+        low_power_mode = true;
+        pthread_mutex_unlock(&low_power_mode_lock);
         //pthread_mutex_lock(&low_power_mode_lock);
 	//common_power_set_interactive(module, pInfo, 0);
         //if (pInfo->ftrace_enable) {
