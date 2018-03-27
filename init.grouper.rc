@@ -105,10 +105,10 @@ on boot
     write /sys/devices/system/cpu/cpuquiet/current_governor balanced
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp 0
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 1
-    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/idle_bottom_freq 370000
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/idle_bottom_freq 204000
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/idle_top_freq 620000
-    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/down_delay 200
-    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/up_delay 200
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/down_delay 60
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/up_delay 60
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/mp_overhead 20
     write /sys/module/cpuidle/parameters/lp2_in_idle 0
     restorecon_recursive /sys/devices/system/cpu/cpuquiet/balanced
@@ -138,7 +138,7 @@ on boot
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intelliactive
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intelliactive
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intelliactive
-    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 80000
+    write /sys/devices/system/cpu/cpufreq/intelliactive/above_hispeed_delay 40000
     write /sys/devices/system/cpu/cpufreq/intelliactive/boost 0
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse 1
     write /sys/devices/system/cpu/cpufreq/intelliactive/boostpulse_duration 80000
@@ -400,10 +400,6 @@ on boot
     write /sys/block/mmcblk0/queue/nr_requests 512
     write /sys/block/mmcblk0/queue/add_random 0
     write /sys/block/mmcblk0/queue/rq_affinity 2
-    write /sys/block/mmcblk1/queue/read_ahead_kb 128
-    write /sys/block/mmcblk1/queue/nr_requests 512
-    write /sys/block/mmcblk1/queue/add_random 0
-    write /sys/block/mmcblk1/queue/rq_affinity 2
 
 # GPS init
     write /sys/class/gpio/export 162

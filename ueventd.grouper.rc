@@ -40,6 +40,12 @@
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0660  system system
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0660  system system
 
+/sys/devices/system/cpu/cpuquiet	balanced/balance_level    0660 system system
+/sys/devices/system/cpu/cpuquiet	balanced/up_delay         0660 system system
+/sys/devices/system/cpu/cpuquiet	balanced/down_delay       0660 system system
+/sys/devices/system/cpu/cpuquiet	balanced/idle_bottom_freq 0660 system system
+/sys/devices/system/cpu/cpuquiet	balanced/idle_top_freq    0660 system system
+
 /sys/devices/system/cpu/cpufreq intelliactive/boostpulse 0660  system system
 /sys/devices/system/cpu/cpufreq intelliactive/above_hispeed_delay 0660  system system
 /sys/devices/system/cpu/cpufreq intelliactive/go_hispeed_load 0660  system system

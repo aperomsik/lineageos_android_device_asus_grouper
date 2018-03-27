@@ -251,8 +251,16 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
             ALOGI("Screen is off, setting relaxed values for intelliactive governor");
             sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
         } else {
-            ALOGI("Screen is on, setting aggressive values for intelliactive governor");
+            ALOGI("Screen is on, setting aggressive values for intelliactive governor and boost wake up");
             sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
+            // Help wake up -> 5 s
+	    pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
+                                                 pInfo->max_frequency,
+                                                 s2ns(5));
+	    // Keeps a minimum of 4 cores online for 4s
+     	    pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
+                                                 DEFAULT_MAX_ONLINE_CPUS,
+                                                 s2ns(5));
         }
     }
 
@@ -276,15 +284,13 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_INTERACTION\n");
         }
-        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
         // Stutters observed during transition animations at lower frequencies
-//        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
-//                                                 pInfo->max_frequency,
-//                                                 ms2ns(2000));
-//        // Keeps a minimum of 2 cores online for 2s
-//        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
-//                                                 DEFAULT_MIN_ONLINE_CPUS,
-//                                                 ms2ns(2000));
+        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
+                                                 pInfo->animation_boost_frequency,
+                                                 s2ns(2));
+        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
+                                                 DEFAULT_MIN_ONLINE_CPUS,
+                                                 s2ns(2));
         break;
 #ifdef ANDROID_API_LP_OR_LATER
 	case POWER_HINT_LOW_POWER:
