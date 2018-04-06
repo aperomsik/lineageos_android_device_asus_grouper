@@ -42,6 +42,8 @@
 /sys/devices/platform/host1x/tegradc\.1(/.*)?                u:object_r:sysfs_devices_tegradc:s0
 /sys/devices/platform/host1x/nvavp/boost_sclk                u:object_r:sysfs_devices_nvavp:s0
 /sys/devices/system/cpu/cpuquiet/runnable(/.*)?              u:object_r:sysfs_devices_system_cpu:s0
+/sys/devices/system/cpu/cpuquiet/balanced(/.*)?              u:object_r:sysfs_devices_system_cpu:s0
+/sys/devices/system/cpu/cpuquiet/userspace(/.*)?             u:object_r:sysfs_devices_system_cpu:s0
 /sys/module/tegra_fuse/parameters/tegra_chip_id              u:object_r:sysfs_modules_tegrafuse:s0
 /sys/module/tegra_fuse/parameters/tegra_chip_rev             u:object_r:sysfs_modules_tegrafuse:s0
 /sys/kernel/debug/scaling/use_throughput_hint                u:object_r:debugfs_pmqos:s0
