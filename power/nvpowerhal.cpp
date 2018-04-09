@@ -253,14 +253,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
         } else {
             ALOGI("Screen is on, setting aggressive values for intelliactive governor and boost wake up");
             sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
-            // Help wake up -> 5 s
-	    pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
-                                                 pInfo->max_frequency,
-                                                 s2ns(5));
-	    // Keeps a minimum of 4 cores online for 4s
-     	    pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
-                                                 DEFAULT_MAX_ONLINE_CPUS,
-                                                 s2ns(5));
+            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
         }
     }
 
