@@ -101,6 +101,7 @@ on boot
     chown system system /sys/kernel/tegra_cap/core_cap_state
     chown system system /sys/module/cpu_tegra/parameters/cpu_user_cap
     chown system system /sys/kernel/cluster/active
+
     # Setting the cpuquiet governor resets the sysfs permissions, so we set it here
     write /sys/devices/system/cpu/cpuquiet/current_governor balanced
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp 0
@@ -115,6 +116,7 @@ on boot
     write /sys/devices/system/cpu/cpuquiet/balanced/idle_top_freq 620000
     write /sys/devices/system/cpu/cpuquiet/balanced/down_delay 60
     write /sys/devices/system/cpu/cpuquiet/balanced/up_delay 60
+
     chown system system /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/down_delay
     chown system system /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/up_delay
     chown system system /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp
@@ -127,8 +129,10 @@ on boot
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/idle_top_freq
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/down_delay
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/up_delay
+    chown system system /sys/devices/platform/host1x/nvavp/boost_sclk
     chown system system /sys/devices/tegradc.0/enable
     chown system system /sys/devices/host1x/gr3d/enable_3d_scaling 
+
     chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/down_delay
     chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/up_delay
     chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/no_lp
@@ -142,6 +146,7 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpuquiet/balanced/idle_top_freq
     chmod 0660 /sys/devices/system/cpu/cpuquiet/balanced/down_delay
     chmod 0660 /sys/devices/system/cpu/cpuquiet/balanced/up_delay
+    chmod 0660 /sys/devices/platform/host1x/nvavp/boost_sclk
     chmod 0660 /sys/devices/tegradc.0/enable
     chmod 0660 /sys/devices/host1x/gr3d/enable_3d_scaling
     chmod 0660 /sys/kernel/cluster/active
@@ -167,6 +172,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
     write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85 
     write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 475000,513000,620000,860000
+
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
@@ -195,6 +201,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load
     chown system system /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq
+
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
@@ -487,9 +494,9 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     oneshot
 
 service p2p_supplicant /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
-    -ip2p0 -Dnl80211 -c /data/misc/wifi/p2p_supplicant.conf \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
     -I/system/etc/wifi/p2p_supplicant_overlay.conf \
     -puse_p2p_group_interface=1 -e/data/misc/wifi/entropy.bin \
     -g@android:wpa_wlan0
