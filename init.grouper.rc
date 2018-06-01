@@ -413,6 +413,15 @@ on boot
     write /sys/module/cpuidle_t3/parameters/lp2_0_in_idle 0
     restorecon_recursive /sys/devices/system/cpu/cpuquiet/balanced
 
+# Double tap to wake settings
+    chown system system /sys/android_touch/doubletap_wake
+    chmod 0664 /sys/android_touch/doubletap_wake
+    chown system system /sys/android_touch/dt_delta_limit
+    chmod 0664 /sys/android_touch/dt_delta_limit
+    chown system system /sys/android_touch/dt_timeout
+    chmod 0664 /sys/android_touch/dt_timeout
+    write /sys/android_touch/doubletap_wake 1
+
 # Default Read Ahead value for sdcards
     write /sys/block/mmcblk0/queue/read_ahead_kb 128
     write /sys/block/mmcblk0/queue/nr_requests 512

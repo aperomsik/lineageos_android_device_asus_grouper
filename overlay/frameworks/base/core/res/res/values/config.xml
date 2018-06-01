@@ -289,4 +289,7 @@
      
     <!-- Whether to enable HumanInteractionController by default -->
     <bool name="config_HICEnabledDefault">false</bool>
+
+    <!-- Whether device supports double tap to wake -->
+    <bool name="config_supportDoubleTapWake">true</bool>
 </resources>
