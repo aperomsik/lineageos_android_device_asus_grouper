@@ -16,6 +16,9 @@
 
 #include "powerhal.h"
 
+#define DOUBLE_TAP_TO_WAKE_PATH "/sys/android_touch/doubletap_wake"
+static pthread_mutex_t low_power_mode_lock = PTHREAD_MUTEX_INITIALIZER;
+
 static struct powerhal_info *pInfo;
 static struct input_dev_map input_devs[] = {
 		{-1, "atmel-maxtouch\n"},
@@ -45,11 +48,15 @@ static void tegra3_power_hint(struct power_module *module, power_hint_t hint,
 }
 
 #ifdef ANDROID_API_LP_OR_LATER
-static void tegra3_set_feature(__attribute__ ((unused)) struct power_module *module, feature_t feature, __attribute__ ((unused)) int state)
+static void  tegra3_set_feature(__attribute__((unused)) struct power_module *module, feature_t feature,
+				      __attribute__((unused)) int state)
 {
     switch (feature) {
     case POWER_FEATURE_DOUBLE_TAP_TO_WAKE:
-        ALOGW("Double tap to wake is not supported\n");
+        pthread_mutex_lock(&low_power_mode_lock);
+        sysfs_write(DOUBLE_TAP_TO_WAKE_PATH, state ? "1\n" : "0\n");
+        ALOGD("Set the POWER_FEATURE_DOUBLE_TAP_TO_WAKE to %d\n", state);
+        pthread_mutex_unlock(&low_power_mode_lock);
         break;
     default:
         ALOGW("Error setting the feature, it doesn't exist %d\n", feature);
