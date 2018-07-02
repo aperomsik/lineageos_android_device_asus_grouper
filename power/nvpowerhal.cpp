@@ -285,6 +285,17 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
                                                  DEFAULT_MIN_ONLINE_CPUS,
                                                  s2ns(2));
         break;
+    case POWER_HINT_LAUNCH:
+        if (pInfo->ftrace_enable) {
+            sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_LAUNCH\n");
+        }
+        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
+                                                 pInfo->max_frequency,
+                                                 s2ns(5));
+        pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
+                                                 DEFAULT_MAX_ONLINE_CPUS,
+                                                 s2ns(5));
+	break;
 #ifdef ANDROID_API_LP_OR_LATER
 	case POWER_HINT_LOW_POWER:
 		break;
