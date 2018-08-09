@@ -185,6 +185,7 @@ void common_power_open(struct powerhal_info *pInfo)
     // the interaction boost so that we can maintain is constantly during
     // interaction.
     pInfo->hint_interval[POWER_HINT_INTERACTION] = 90000;
+    pInfo->hint_interval[POWER_HINT_LAUNCH] = 2000000;
 
     free(buf);
 }
@@ -192,6 +193,7 @@ void common_power_open(struct powerhal_info *pInfo)
 void common_power_init(__attribute__ ((unused)) struct power_module *module,
         struct powerhal_info *pInfo)
 {
+    ALOGI("common_power_open ... ");
     common_power_open(pInfo);
 
     pInfo->ftrace_enable = get_property_bool("nvidia.hwc.ftrace_enable", false);
@@ -214,6 +216,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     const char* lp_state = (on)?"1":"0";
     const char* gov = (on == 0)?"intelliactive":"intelliactive";
 
+    ALOGI("common_power_open_set_interactive ... ");
     sysfs_write("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", gov);
     ALOGI("Setting scaling_governor to %s", gov);
 
@@ -221,6 +224,7 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     ALOGI("Setting low power cluster %s", lp_state);
 
     if (0 != pInfo) {
+        ALOGI("pInfo available ... ");
         for (i = 0; i < pInfo->input_cnt; i++) {
             if (0 == pInfo->input_devs)
                 dev_id = i;
@@ -240,21 +244,21 @@ void common_power_set_interactive(__attribute__ ((unused)) struct power_module *
     }
 
     if ( on == 0 ) {
-        const char* display_mode = "/sys/devices/virtual/switch/tegradc.0/state";
-        char mode[9] = "";
-
-        memset(mode, 0, 9);
-        usleep(4000); // Sleep a bit for the filepaths to change and permissions to be set
-        sysfs_read(display_mode, mode, 9);
-        ALOGD("Display mode is currently %s", mode);
-        if ( strncmp(mode,"offline",7) == 0 ) {
-            ALOGI("Screen is off, setting relaxed values for intelliactive governor");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
-        } else {
-            ALOGI("Screen is on, setting aggressive values for intelliactive governor and boost wake up");
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
-            sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
-        }
+        ALOGI("on == 0 -> going to be switched off");
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 0);
+    } else {
+        ALOGI("Screen is off going to be switched on, setting aggressive values for intelliactive governor and boost wake up");
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/io_is_busy", 1);
+        sysfs_write_int("/sys/devices/system/cpu/cpufreq/intelliactive/boostpulse", 1);
+        if (0 != pInfo) {
+            ALOGI("dealing with wake up -> boosting CPU for 5s");
+            pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
+                                                     pInfo->max_frequency,
+                                                     s2ns(5));
+            pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
+                                                     DEFAULT_MAX_ONLINE_CPUS,
+                                                     s2ns(5));
+       }
     }
 
 }
@@ -274,27 +278,29 @@ void common_power_hint(__attribute__ ((unused)) struct power_module *module,
     case POWER_HINT_VSYNC:
         break;
     case POWER_HINT_INTERACTION:
+        ALOGI("dealing with POWER_HINT_INTERACTION -> boosting CPU for 90ms");
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_INTERACTION\n");
         }
         // Stutters observed during transition animations at lower frequencies
         pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
-                                                 pInfo->animation_boost_frequency,
-                                                 s2ns(2));
+                                                 pInfo->max_frequency,
+                                                 ms2ns(90));
         pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
                                                  DEFAULT_MIN_ONLINE_CPUS,
-                                                 s2ns(2));
+                                                 ms2ns(90));
         break;
     case POWER_HINT_LAUNCH:
+        ALOGI("dealing with POWER_HINT_LAUNCH -> boosting CPU for 2 seconds");
         if (pInfo->ftrace_enable) {
             sysfs_write("/sys/kernel/debug/tracing/trace_marker", "Start POWER_HINT_LAUNCH\n");
         }
         pInfo->mTimeoutPoker->requestPmQosTimed("/dev/cpu_freq_min",
                                                  pInfo->max_frequency,
-                                                 s2ns(5));
+                                                 s2ns(2));
         pInfo->mTimeoutPoker->requestPmQosTimed("/dev/min_online_cpus",
                                                  DEFAULT_MAX_ONLINE_CPUS,
-                                                 s2ns(5));
+                                                 s2ns(2));
 	break;
 #ifdef ANDROID_API_LP_OR_LATER
 	case POWER_HINT_LOW_POWER:
