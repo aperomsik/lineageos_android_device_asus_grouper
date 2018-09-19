@@ -57,7 +57,6 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     setprop vold.post_fs_data_done 1
 
-
 on boot
 
 # bluetooth
@@ -131,7 +130,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/up_delay
     chown system system /sys/devices/platform/host1x/nvavp/boost_sclk
     chown system system /sys/devices/tegradc.0/enable
-    chown system system /sys/devices/host1x/gr3d/enable_3d_scaling 
+    chown system system /sys/devices/host1x/gr3d/enable_3d_scaling
 
     chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/down_delay
     chmod 0660 /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/up_delay
@@ -170,7 +169,7 @@ on boot
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_rate 10000
     write /sys/devices/system/cpu/cpufreq/intelliactive/timer_slack 40000
     write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_freq 860000
-    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85 
+    write /sys/devices/system/cpu/cpufreq/intelliactive/up_threshold_any_cpu_load 85
     write /sys/devices/system/cpu/cpufreq/intelliactive/two_phase_freq 475000,513000,620000,860000
 
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -389,7 +388,7 @@ on boot
     chown system system /sys/module/lowmemorykiller/parameters/minfree
     chown system system /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
-    chmod 0660 /sys/module/cpuidle/parameters/lp2_in_idle 
+    chmod 0660 /sys/module/cpuidle/parameters/lp2_in_idle
     chmod 0660 /sys/module/intelli_plug/parameters/nr_run_profile_sel
     chmod 0600 /sys/module/intelli_plug/parameters/cpu_nr_run_threshold
     chmod 0600 /sys/module/intelli_plug/parameters/nr_run_hysteresis
@@ -423,10 +422,22 @@ on boot
     write /sys/android_touch/doubletap_wake 1
 
 # Default Read Ahead value for sdcards
-    write /sys/block/mmcblk0/queue/read_ahead_kb 128
-    write /sys/block/mmcblk0/queue/nr_requests 512
+#    write /sys/block/mmcblk0/queue/scheduler cfq
+    write /sys/block/mmcblk0/queue/read_ahead_kb 256
+    write /sys/block/mmcblk0/queue/nr_requests 256
     write /sys/block/mmcblk0/queue/add_random 0
     write /sys/block/mmcblk0/queue/rq_affinity 1
+    write /sys/block/mmcblk0/queue/iosched/slice_idle 0
+    write /sys/block/mmcblk0/queue/iosched/group_idle 0
+    write /sys/block/mmcblk0/queue/iosched/back_seek_penalty 1
+    write /sys/block/mmcblk0/queue/iosched/quantum 8
+    write /sys/block/mmcblk0/queue/iosched/slice_async 40
+    write /sys/block/mmcblk0/queue/iosched/slice_sync 100
+    write /sys/block/mmcblk0/queue/iosched/fifo_expire_async 250
+    write /sys/block/mmcblk0/queue/iosched/fifo_expire_sync 120
+#    write /sys/block/mmcblk0/queue/iosched/slice_async_rq 4
+#    write /sys/block/mmcblk0/queue/iosched/back_seek_max 2147483647
+#    write /sys/block/mmcblk0/queue/iosched/target_latency 300
 
 # GPS init
     write /sys/class/gpio/export 162
@@ -448,43 +459,28 @@ on boot
     start touch_fw_update
 
 # initialize KSM
-    write /sys/kernel/mm/ksm/deferred_timer 1
-    write /sys/kernel/mm/ksm/pages_to_scan 256
-    write /sys/kernel/mm/ksm/sleep_millisecs 1500
-    write /sys/kernel/mm/ksm/sleep_millisecs 500
-    write /sys/kernel/mm/ksm/run 1
+#    write /sys/kernel/mm/ksm/deferred_timer 1
+#    write /sys/kernel/mm/ksm/pages_to_scan 256
+#    write /sys/kernel/mm/ksm/sleep_millisecs 1500
+#    write /sys/kernel/mm/ksm/run 1
 
 # config swap
-    write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/page-cluster 1
     write /proc/sys/vm/swappiness 100
-    write /proc/sys/vm/dirty_ratio 25
-    write /proc/sys/vm/dirty_background_ratio 10 
-    write /sys/block/zram0/max_comp_streams 2
+    write /proc/sys/vm/dirty_ratio 15
+    write /proc/sys/vm/dirty_background_ratio 5
+    write /proc/sys/vm/dirty_writeback_centisecs 400
+    write /proc/sys/vm/min_free_kbytes 3072 
+#    write /sys/block/zram0/max_comp_streams 2
 
 
-
-# some additional performance tweaks (to be tested)
-	setprop dalvik.vm.heapgrowthlimit 128m
-	setprop dalvik.vm.heapsize 256m
-	write /sys/module/lowmemorykiller/parameters/cost 48
-	# Enable Adaptive LMK
-	write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
-	write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 50000
-
-	write /proc/sys/vm/min_free_kbytes 3072
-	write /proc/sys/vm/highmem_is_dirtyable 0
-	write /sys/block/mmcblk0/queue/scheduler cfq
-	write /sys/block/mmcblk0/queue/nr_requests 512
-	write /sys/block/mmcblk0/queue/add_random 0
-	write /sys/block/mmcblk0/queue/rq_affinity 1
-	write /sys/block/mmcblk0/queue/iosched/slice_idle 0
-	write /sys/block/mmcblk0/queue/iosched/group_idle 10
-	write /sys/block/mmcblk0/queue/iosched/back_seek_penalty 1
-	write /sys/block/mmcblk0/queue/iosched/quantum 16
-	write /sys/block/mmcblk0/queue/iosched/slice_async_rq 4
-	write /sys/block/mmcblk0/queue/iosched/back_seek_max 2147483647
-	write /sys/devices/tegradc.0/smartdimmer/enable 0
-	write /sys/devices/host1x/gr3d/enable_3d_scaling 1
+# some additional performance tweaks (to be tested
+    write /sys/module/lowmemorykiller/parameters/cost 48
+    # Enable Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 49152
+#    write /sys/devices/tegradc.0/smartdimmer/enable 0
+#   write /sys/devices/host1x/gr3d/enable_3d_scaling 1
 
 # stop ril-daemon if this is a wifi-only device
 on property:ro.carrier=wifi-only
@@ -504,9 +500,9 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     oneshot
 
 service p2p_supplicant /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
-    -ip2p0 -Dnl80211 -c /data/misc/wifi/p2p_supplicant.conf \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
     -I/system/etc/wifi/p2p_supplicant_overlay.conf \
     -puse_p2p_group_interface=1 -e/data/misc/wifi/entropy.bin \
     -g@android:wpa_wlan0
