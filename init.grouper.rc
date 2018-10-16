@@ -458,10 +458,10 @@ on boot
     start touch_fw_update
 
 # initialize KSM
-#    write /sys/kernel/mm/ksm/deferred_timer 1
-#    write /sys/kernel/mm/ksm/pages_to_scan 256
-#    write /sys/kernel/mm/ksm/sleep_millisecs 1500
-#    write /sys/kernel/mm/ksm/run 1
+    write /sys/kernel/mm/ksm/deferred_timer 1
+    write /sys/kernel/mm/ksm/pages_to_scan 256
+    write /sys/kernel/mm/ksm/sleep_millisecs 1500
+    write /sys/kernel/mm/ksm/run 1
 
 # config swap
     write /proc/sys/vm/page-cluster 1
@@ -474,6 +474,8 @@ on boot
 
 
 # some additional performance tweaks (to be tested
+    write /sys/module/lowmemorykiller/parameters/adj "0,300,600,800,900,906"
+    write /sys/module/lowmemorykiller/parameters/minfree "15360,19200,23040,26880,34415,43737"
     write /sys/module/lowmemorykiller/parameters/cost 48
     # Enable Adaptive LMK
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
